@@ -1,7 +1,7 @@
-from sttc.lambdas.config.Regions import REGIONS
+from sttc.aws.config import Regions as r
 
 
-DEFAULT_REGION = REGIONS["CA_CENTRAL_1"]
+DEFAULT_REGION = r.REGIONS["CA_CENTRAL_1"]
 
 class ConfigProvider:
     

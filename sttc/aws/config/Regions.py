@@ -17,3 +17,13 @@ REGIONS={
     "CN_NORTH_1": "cn-north-1",
     "CA_CENTRAL_1": "ca-central-1"
     }
+
+REGION_GEO={
+    "NYC": "us-east-2",
+    "SF": "us-west-1",
+    "IRL": "eu-west-1",
+    "ALL": "eu-central-1",
+    "CAN": "ca-central-1"
+    }
+         
+        

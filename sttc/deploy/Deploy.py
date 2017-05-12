@@ -7,10 +7,12 @@ import argparse
 from sttc.deploy.service import Messages as m
 from sttc.deploy.service.Translator import Translator
 from sttc.deploy.service import ConfReader as cr
+from sttc.aws.service.LambdaManager import LambdaManager
 from pprint import pprint
 
 DEPLOY_CONFIG_NAME = "deployConfig.json"
 DEPLOY_CONFIG_FILEPATH = "./resource"
+DEPLOY_REGION_ZONE = "IRL"
         
 def getLambdaDir(t, path):
     onlyDir = [f for f in listdir(path) if isdir(join(path, f))]
@@ -75,6 +77,7 @@ if __name__ == '__main__':
         
     ''' loading tools'''
     t = Translator(lan)    
+    l = LambdaManager(DEPLOY_REGION_ZONE)
     confDeployer = loadConfigDeployer(t)
     if confDeployer == None:
         print (t.getMessage("errorLoadingDeployerConfig"))
@@ -88,8 +91,27 @@ if __name__ == '__main__':
         
     
     
-    print (t.getMessage("deploying") + " - " + myLambda)      
+    print (t.getMessage("zipping ") + " - " + myLambda)     
+    pathToLambdaZip = '../lambdas/' + myLambda + '/'
+    shutil.make_archive(myLambda, "zip", pathToLambdaZip)
     
-    shutil.make_archive(myLambda, "zip", '../lambdas/' + myLambda + '/')
+    print (t.getMessage("deploying ") + " - " + myLambda)    
+    l.createFunctionSimple(confLambda, join(pathToLambdaZip, myLambda)) 
     
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             

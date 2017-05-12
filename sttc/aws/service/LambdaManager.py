@@ -1,52 +1,35 @@
 from sttc.aws.config.ConfigProvider import ConfigProvider
 import boto3
+import gzip
 
 class LambdaManager:
     
-    def __init__(self):
-        conf = ConfigProvider()
-        client = boto3.client('lambda')
+    def __init__(self, zone):
+        self.conf = ConfigProvider(zone)
+        self.client = boto3.client('lambda')
         
     
-    #TODO
-    def createFunction(self, lambdaName, pathToZip):
+    '''
+        Only the mandatory fields
+    '''
+    def createFunctionSimple(self, lambdaConf, pathToZip):
+        
+        with gzip.GzipFile(pathToZip) as f:
+            zipLambda = f.read()
+    
+        role = lambdaConf['role']
+        accNum = self.conf.getAccountNumber() 
+        role.replace("<AccountNumber>", accNum)
         
         response = self.client.create_function(
-            FunctionName=lambdaName,
+            FunctionName=lambdaConf['name'],
             Runtime='python3.6',
-            Role='string',
-            Handler='string',
+            Role=role,
+            Handler=lambdaConf['handler'],
             Code={
-                'ZipFile': b'bytes',
-                'S3Bucket': 'string',
-                'S3Key': 'string',
-                'S3ObjectVersion': 'string'
-            },
-            Description='string',
-            Timeout=123,
-            MemorySize=123,
-            Publish=True|False,
-            VpcConfig={
-                'SubnetIds': [
-                    'string',
-                ],
-                'SecurityGroupIds': [
-                    'string',
-                ]
-            },
-            DeadLetterConfig={
-                'TargetArn': 'string'
-            },
-            Environment={
-                'Variables': {
-                    'string': 'string'
-                }
-            },
-            KMSKeyArn='string',
-            TracingConfig={
-                'Mode': 'Active'|'PassThrough'
-            },
-            Tags={
-                'string': 'string'
+                'ZipFile': str.encode(zipLambda),
+                'S3Bucket': lambdaConf['S3Bucket'],
+                'S3Key': lambdaConf['S3Key'],
+                'S3ObjectVersion': lambdaConf['S3ObjectVersion']
             }
-)
+        )

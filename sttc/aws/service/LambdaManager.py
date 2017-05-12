@@ -6,7 +6,7 @@ class LambdaManager:
     
     def __init__(self, zone):
         self.conf = ConfigProvider(zone)
-        self.client = boto3.client('lambda')
+        self.client = boto3.client('lambda', region_name=self.conf.region)
         
     
     '''
@@ -19,7 +19,7 @@ class LambdaManager:
     
         role = lambdaConf['role']
         accNum = self.conf.getAccountNumber() 
-        role.replace("<AccountNumber>", accNum)
+        role = role.replace("<AccountNumber>", accNum)
         
         response = self.client.create_function(
             FunctionName=lambdaConf['name'],
@@ -27,9 +27,13 @@ class LambdaManager:
             Role=role,
             Handler=lambdaConf['handler'],
             Code={
-                'ZipFile': zipLambda,
+                'ZipFile': zipLambda
+            }
+        )
+        
+'''
+        ,
                 'S3Bucket': lambdaConf['S3Bucket'],
                 'S3Key': lambdaConf['S3Key'],
                 'S3ObjectVersion': lambdaConf['S3ObjectVersion']
-            }
-        )
+'''

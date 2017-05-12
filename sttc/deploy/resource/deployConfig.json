@@ -1,3 +1,3 @@
 {
-	"mandatory": ["name", "handler", "role", "S3Bucket", "S3Key", "S3ObjectVersion" ]
+	"mandatory": ["name", "handler", "role", "rolePolicy" ]
 }

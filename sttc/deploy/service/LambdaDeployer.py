@@ -80,7 +80,7 @@ class LambdaDeployer:
         shutil.make_archive(myLambda, "zip", pathToLambdaZip)
         
         print (self.t.getMessage("deploying ") + " - " + myLambda)  
-        self.iamd.manageRole(confLambda['role'].split(":role/",1)[1])  
+        self.iamd.manageRole(confLambda['role'].split(":role/",1)[1], confLambda["rolePolicy"])  
         self.l.createFunctionSimpleDeleteIfExists(confLambda,  "./" + myLambda + ".zip")
     
     

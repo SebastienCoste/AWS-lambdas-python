@@ -2,7 +2,5 @@
 	"name": "tutoLambda",
 	"handler": "hello.lambda_handler",
 	"role": "arn:aws:iam::<AccountNumber>:role/PictureSiteDefaultRole",
-	"S3Bucket": "LambdaPythonPictureSite", 
-	"S3Key": "LambdaTutoPythonPictureSite", 
-	"S3ObjectVersion": "0.0.1" 
+	"rolePolicy": "lambdaFullAccessPolicyArn"
 }

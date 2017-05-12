@@ -16,5 +16,5 @@ class IAMDeployer():
     def manageIAM(self):
         pass
     
-    def manageRole(self, rolename):
-        self.iam.createRoleIfNotExists(rolename)
+    def manageRole(self, rolename, rolePolicyArn):
+        self.iam.createRoleIfNotExists(rolename, rolePolicyArn)

@@ -10,7 +10,7 @@ class IAMManager:
         self.iam = boto3.resource('iam', region_name=self.conf.region)
         
     #TODO
-    def createRoleIfNotExists(self, rolename):
+    def createRoleIfNotExists(self, rolename, rolePolicyArn):
         
         try:
             role = self.iam.Role(rolename)
@@ -24,7 +24,7 @@ class IAMManager:
                 AssumeRolePolicyDocument = policyDocument
             )
             response = roleCreated.attach_policy(
-                PolicyArn=self.conf.lambdaPolicyArn
+                PolicyArn=self.conf.__dict__[rolePolicyArn]
             )
                 
             code = response['ResponseMetadata']['HTTPStatusCode']

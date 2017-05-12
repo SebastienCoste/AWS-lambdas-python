@@ -8,7 +8,9 @@ French= {
         "deploying": "deploying",
         "errorLoadingJson": "errorLoadingJson",
         "errorLoadingDeployerConfig": "errorLoadingDeployerConfig",
-        "missingMandatoryArtifact": "missingMandatoryArtifact"
+        "missingMandatoryArtifact": "missingMandatoryArtifact",
+        "deleteFunction": "deleteFunction",
+        "createFunctionSimple": "createFunctionSimple"
          
          }
 
@@ -20,7 +22,9 @@ English= {
         "deploying": "deploying",
         "errorLoadingJson": "errorLoadingJson",
         "errorLoadingDeployerConfig": "errorLoadingDeployerConfig",
-        "missingMandatoryArtifact": "missingMandatoryArtifact"
+        "missingMandatoryArtifact": "missingMandatoryArtifact",
+        "deleteFunction": "deleteFunction",
+        "createFunctionSimple": "createFunctionSimple"
         
           }
 

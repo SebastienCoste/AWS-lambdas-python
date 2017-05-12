@@ -77,7 +77,7 @@ if __name__ == '__main__':
         
     ''' loading tools'''
     t = Translator(lan)    
-    l = LambdaManager(DEPLOY_REGION_ZONE)
+    l = LambdaManager(t, DEPLOY_REGION_ZONE)
     confDeployer = loadConfigDeployer(t)
     if confDeployer == None:
         print (t.getMessage("errorLoadingDeployerConfig"))

@@ -8,7 +8,7 @@ class IAMManager:
             self.conf = ConfigProvider(zone)
         else:
             self.conf = conf 
-        self.iam = boto3.resource('iam')
+        self.iam = boto3.resource('iam', region_name=self.conf.region)
         
     #TODO
     def createRoleIfNotExists(self, rolename, arn):

@@ -96,7 +96,7 @@ if __name__ == '__main__':
     shutil.make_archive(myLambda, "zip", pathToLambdaZip)
     
     print (t.getMessage("deploying ") + " - " + myLambda)    
-    l.createFunctionSimple(confLambda, join(pathToLambdaZip, myLambda)) 
+    l.createFunctionSimple(confLambda,  "./" + myLambda + ".zip")
     
             
             

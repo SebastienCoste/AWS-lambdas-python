@@ -14,7 +14,7 @@ class LambdaManager:
     '''
     def createFunctionSimple(self, lambdaConf, pathToZip):
         
-        with gzip.GzipFile(pathToZip) as f:
+        with open(pathToZip, 'rb') as f:
             zipLambda = f.read()
     
         role = lambdaConf['role']
@@ -27,7 +27,7 @@ class LambdaManager:
             Role=role,
             Handler=lambdaConf['handler'],
             Code={
-                'ZipFile': str.encode(zipLambda),
+                'ZipFile': zipLambda,
                 'S3Bucket': lambdaConf['S3Bucket'],
                 'S3Key': lambdaConf['S3Key'],
                 'S3ObjectVersion': lambdaConf['S3ObjectVersion']

@@ -1,4 +1,5 @@
 from sttc.aws.config import Regions as r
+from os.path import abspath
 import json
 
 DEFAULT_REGION = r.REGIONS["CA_CENTRAL_1"]
@@ -13,9 +14,10 @@ class ConfigProvider:
                 self.region = regZone
         
         try:
-            with open("../resource/privateConf.json") as private:    #For now it's a unversionned file for private data
+            with open(abspath("../aws/resource/privateConf.json")) as private:    #For now it's a unversionned file for private data
                 data = json.load(private)
                 self.accountNumber = data['accountNumber']
+                print(self.accountNumber)
         except:
             raise Exception()
                 

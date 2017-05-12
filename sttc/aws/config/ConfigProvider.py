@@ -18,6 +18,11 @@ class ConfigProvider:
                 data = json.load(private)
                 self.accountNumber = data['accountNumber']
                 print(self.accountNumber)
+                
+            with open(abspath("../aws/resource/defaultConf.json")) as defConf:   
+                data = json.load(defConf)
+                for key in data.keys():
+                    self.__dict__[key] = data[key]
         except:
             raise Exception()
                 

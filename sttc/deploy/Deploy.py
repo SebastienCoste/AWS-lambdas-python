@@ -6,6 +6,7 @@ from sttc.deploy.service import Messages as m
 from sttc.deploy.service.Translator import Translator
 from sttc.deploy.service import ConfReader as cr
 from sttc.deploy.service.LambdaDeployer import LambdaDeployer
+from sttc.deploy.service.IAMDeployer import IAMDeployer
 
 
 DEPLOY_REGION_ZONE = "IRL"
@@ -34,8 +35,6 @@ if __name__ == '__main__':
             raise Exception("Unrecognized language")
     if args.filepath:
         rootLambdaPath = args.filepath.lower()
-    
-    
         
     ''' loading tools'''
     t = Translator(lan)    
@@ -44,12 +43,29 @@ if __name__ == '__main__':
         print (t.getMessage("errorLoadingDeployerConfig"))
         exit(1)
         
+    '''working on iam'''
+    iamd = IAMDeployer(DEPLOY_REGION_ZONE, t)
+    iamd.manageIAM()
+        
     ''' working on lambdas'''
     ld = LambdaDeployer(t, DEPLOY_REGION_ZONE, rootLambdaPath, DEPLOY_CONFIG_NAME, confDeployer)
     ld.manageLambda()
     
+    
+    
             
             
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
             
             
             

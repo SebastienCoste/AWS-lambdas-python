@@ -5,6 +5,7 @@ Created on 12 mai 2017
 '''
 
 from sttc.aws.service.LambdaManager import LambdaManager
+from sttc.deploy.service.IAMDeployer import IAMDeployer
 from sttc.deploy.service import ConfReader as cr
 
 from os.path import isdir, join
@@ -14,8 +15,6 @@ import shutil
 
 class LambdaDeployer:
     
-
-
     def __init__(self, translator, zone, rootLambdaPath, confName, confDeployer):
         self.t = translator
         self.zone = zone
@@ -23,6 +22,8 @@ class LambdaDeployer:
         self.confName = confName
         self.confDeployer = confDeployer
         self.l = LambdaManager(self.t, self.zone)
+        self.iamd = IAMDeployer(self.zone, self.t)
+        
         
     def manageLambda(self):
         confLambda = None
@@ -32,9 +33,6 @@ class LambdaDeployer:
         
         self.deployLambda(confLambda, myLambda)
       
-        
-
-
 
     def getLambdaDir(self, path):
         onlyDir = [f for f in listdir(path) if isdir(join(path, f))]
@@ -66,6 +64,7 @@ class LambdaDeployer:
                 return False
         return True
     
+    
     def getConfig(self, lambdaDir, confDeployer):
         confpath = join(lambdaDir, self.confName)
         conf = cr.readJson(self.t, confpath)
@@ -74,13 +73,15 @@ class LambdaDeployer:
         else:
             return None
         
+        
     def deployLambda(self, confLambda, myLambda):
         print (self.t.getMessage("zipping ") + " - " + myLambda)     
         pathToLambdaZip = '../lambdas/' + myLambda + '/'
         shutil.make_archive(myLambda, "zip", pathToLambdaZip)
         
-        print (self.t.getMessage("deploying ") + " - " + myLambda)    
-        self.l.createFunctionSimple(confLambda,  "./" + myLambda + ".zip")
+        print (self.t.getMessage("deploying ") + " - " + myLambda)  
+        self.iamd.manageRole(confLambda['role'].split(":role/",1)[1])  
+        self.l.createFunctionSimpleDeleteIfExists(confLambda,  "./" + myLambda + ".zip")
     
     
     

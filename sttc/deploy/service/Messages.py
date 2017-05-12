@@ -10,7 +10,8 @@ French= {
         "errorLoadingDeployerConfig": "errorLoadingDeployerConfig",
         "missingMandatoryArtifact": "missingMandatoryArtifact",
         "deleteFunction": "deleteFunction",
-        "createFunctionSimple": "createFunctionSimple"
+        "createFunctionSimple": "createFunctionSimple",
+        "createRole": "createRole"
          
          }
 
@@ -24,7 +25,8 @@ English= {
         "errorLoadingDeployerConfig": "errorLoadingDeployerConfig",
         "missingMandatoryArtifact": "missingMandatoryArtifact",
         "deleteFunction": "deleteFunction",
-        "createFunctionSimple": "createFunctionSimple"
+        "createFunctionSimple": "createFunctionSimple",
+        "createRole": "createRole"
         
           }
 

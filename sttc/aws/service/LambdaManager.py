@@ -18,12 +18,22 @@ class LambdaManager:
         )
         code = response['ResponseMetadata']['HTTPStatusCode']
         print(self.t.getMessage("deleteFunction") + " " + str(code))
+        
     '''
         Only the mandatory fields
     '''
-    def createFunctionSimple(self, lambdaConf, pathToZip):
         
-        self.deleteFunction(lambdaConf)
+                
+    def createFunctionSimpleDeleteIfExists(self, lambdaConf, pathToZip):
+        try:
+            self.deleteFunction(lambdaConf)
+        except:
+            pass
+        self.createFunctionSimple(lambdaConf, pathToZip)
+        
+            
+                
+    def createFunctionSimple(self, lambdaConf, pathToZip):
         
         with open(pathToZip, 'rb') as f:
             zipLambda = f.read()

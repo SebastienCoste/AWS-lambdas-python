@@ -47,8 +47,36 @@ class APIGatewayManager:
         resourceId = response['id']
         print(self.t.getMessage("createResource") + " " + resourceId)
         
+        
+        if "method" in confResource.keys():
+            for method in confResource['method']:
+                self.createMethod(method, apiId, resourceId)
+            
         if "resource" in confResource.keys():
             self.createResource(confResource["resource"], apiId, resourceId)
+        
+    def createMethod(self, confMethod, apiId, resourceId):
+        
+        authId = ""
+        if "authorizerId" in confMethod.keys():
+            authId = confMethod['authorizerId']
+        operationName = ""
+        if "operationName" in confMethod.keys():
+            operationName = confMethod['operationName']
+        
+        response = self.gateway.put_method(
+            restApiId= apiId,
+            resourceId= resourceId,
+            httpMethod= confMethod['httpMethod'],
+            authorizationType= confMethod['authorizationType'],
+            authorizerId=authId,
+            apiKeyRequired=False,
+            operationName= operationName
+        )
+        
+        
+        methodId = response['id']
+        print(self.t.getMessage("createMethod") + " " + methodId)
         
     
     def getResourceByPath(self, rest_api_id, path):

@@ -13,7 +13,8 @@ French= {
         "createFunctionSimple": "createFunctionSimple",
         "createRole": "createRole",
         "createAPI": "createAPI",
-        "createResource": "createResource"
+        "createResource": "createResource",
+        "createMethod": "createMethod"
          
          }
 
@@ -30,7 +31,8 @@ English= {
         "createFunctionSimple": "createFunctionSimple",
         "createRole": "createRole",
         "createAPI": "createAPI",
-        "createResource": "createResource"
+        "createResource": "createResource",
+        "createMethod": "createMethod"
         
           }
 

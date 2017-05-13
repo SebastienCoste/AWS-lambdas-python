@@ -4,13 +4,33 @@
 	"role": "arn:aws:iam::<AccountNumber>:role/PictureSiteDefaultRole",
 	"rolePolicy": "lambdaFullAccessPolicyArn",
 	"APIGatewayConf": {
-		"name": "nameAPI2",
+		"name": "nameAPI3",
 		"version": "0.0.1",
 		"resource": {
 			"pathPart": "test",
 			"resource": {
-				"pathPart": "tuto"
-			}
+				"pathPart": "tuto",
+				"method": [
+					{
+						"httpMethod": "GET",
+						"authorizationType": "NONE"
+					},
+					{
+						"httpMethod": "POST",
+						"authorizationType": "NONE"
+					}
+				]
+			},
+			"method": [
+				{
+					"httpMethod": "GET",
+					"authorizationType": "NONE"
+				},
+				{
+					"httpMethod": "POST",
+					"authorizationType": "NONE"
+				}
+			]
 		}
 	}
 }

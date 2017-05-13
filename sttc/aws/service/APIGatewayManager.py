@@ -50,7 +50,8 @@ class APIGatewayManager:
         
         if "method" in confResource.keys():
             for method in confResource['method']:
-                self.createMethod(method, apiId, resourceId)
+                pass
+                #self.createMethod(method, apiId, resourceId)
             
         if "resource" in confResource.keys():
             self.createResource(confResource["resource"], apiId, resourceId)

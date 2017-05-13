@@ -3,7 +3,7 @@
 	"conditionnalMandatory":[
 		{
 			"name": "APIGatewayConf",
-			"mandatory": ["name", "version"]
+			"mandatory": ["name", "version", "resource"]
 		}
 	]
 }

@@ -17,17 +17,68 @@ class APIGatewayManager:
        create a new REST API, 
        add a Resource, 
        and add a method to that Resource.
+       give the role to call lambdas
        '''
        
-    def createAPI(self, confGateway):
+    def createAPI(self, conf):
         
         response = self.gateway.create_rest_api(
-            name=confGateway["name"],
+            name=conf["name"],
             description='auto generated API',
-            version=confGateway["version"]
+            version=conf["version"]
         )
         
+        conf['apiId'] = response['id']
         code = response['ResponseMetadata']['HTTPStatusCode']
-        print(self.t.getMessage("createAPI") + " " + str(code))
+        print(self.t.getMessage("createAPI") + " " + conf['apiId'])
+        
+        root = self.getResourceByPath(conf['apiId'], "/")
+        print(self.t.getMessage("createResource") + " " + root['id'])
+        self.createResource(conf['resource'], conf['apiId'], root['id'])
+        
+    def createResource(self, confResource, apiId, parentId):
+        
+        response = self.gateway.create_resource(
+            restApiId= apiId,
+            parentId= parentId,
+            pathPart= confResource['pathPart']
+        )
+        
+        resourceId = response['id']
+        print(self.t.getMessage("createResource") + " " + resourceId)
+        
+        if "resource" in confResource.keys():
+            self.createResource(confResource["resource"], apiId, resourceId)
+        
+    
+    def getResourceByPath(self, rest_api_id, path):
+
+        resource = None
+        resource_items = self.gateway.get_resources(restApiId=rest_api_id, limit=500)['items']
+    
+        for item in resource_items:
+            if item['path'] == path:
+                resource = item
+                break
+    
+        return resource
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         

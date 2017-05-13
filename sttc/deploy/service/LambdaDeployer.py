@@ -95,7 +95,7 @@ class LambdaDeployer:
         
         if "APIGatewayConf" in confLambda.keys():
             confGateway = confLambda["APIGatewayConf"]
-            print (self.t.getMessage("manageAPIGateway ") + " - " + confGateway['name'])          
+            print (self.t.getMessage("manageAPIGateway") + " - " + confGateway['name'])          
             self.gateway.createAPI(confGateway)
                 
         roleName = confLambda['role'].split(":role/",1)[1]

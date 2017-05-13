@@ -12,7 +12,8 @@ French= {
         "deleteFunction": "deleteFunction",
         "createFunctionSimple": "createFunctionSimple",
         "createRole": "createRole",
-        "createAPI": "createAPI"
+        "createAPI": "createAPI",
+        "createResource": "createResource"
          
          }
 
@@ -28,7 +29,8 @@ English= {
         "deleteFunction": "deleteFunction",
         "createFunctionSimple": "createFunctionSimple",
         "createRole": "createRole",
-        "createAPI": "createAPI"
+        "createAPI": "createAPI",
+        "createResource": "createResource"
         
           }
 

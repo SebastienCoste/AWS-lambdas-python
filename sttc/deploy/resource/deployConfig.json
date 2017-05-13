@@ -1,3 +1,9 @@
 {
-	"mandatory": ["name", "handler", "role", "rolePolicy" ]
+	"mandatory": ["name", "handler", "role", "rolePolicy" ],
+	"conditionnalMandatory":[
+		{
+			"name": "APIGatewayConf",
+			"mandatory": ["name", "version"]
+		}
+	]
 }

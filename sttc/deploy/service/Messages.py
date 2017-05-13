@@ -11,7 +11,8 @@ French= {
         "missingMandatoryArtifact": "missingMandatoryArtifact",
         "deleteFunction": "deleteFunction",
         "createFunctionSimple": "createFunctionSimple",
-        "createRole": "createRole"
+        "createRole": "createRole",
+        "createAPI": "createAPI"
          
          }
 
@@ -26,7 +27,8 @@ English= {
         "missingMandatoryArtifact": "missingMandatoryArtifact",
         "deleteFunction": "deleteFunction",
         "createFunctionSimple": "createFunctionSimple",
-        "createRole": "createRole"
+        "createRole": "createRole",
+        "createAPI": "createAPI"
         
           }
 

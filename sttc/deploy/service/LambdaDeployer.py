@@ -5,6 +5,7 @@ Created on 12 mai 2017
 '''
 
 from sttc.aws.service.LambdaManager import LambdaManager
+from sttc.aws.service.APIGatewayManager import APIGatewayManager
 from sttc.deploy.service.IAMDeployer import IAMDeployer
 from sttc.deploy.service import ConfReader as cr
 
@@ -23,6 +24,7 @@ class LambdaDeployer:
         self.confDeployer = confDeployer
         self.l = LambdaManager(self.t, self.zone)
         self.iamd = IAMDeployer(self.zone, self.t)
+        self.gateway = APIGatewayManager(self.zone, self.t)
         
         
     def manageLambda(self):
@@ -62,6 +64,17 @@ class LambdaDeployer:
             except: 
                 print (self.t.getMessage("missingMandatoryArtifact") + " " + item)
                 return False
+        for item in confDeployer["conditionnalMandatory"]:
+            if item['name'] in conf.keys():
+                toValidate = conf[item['name']]
+                for subitem in item["mandatory"]:
+                    try:
+                        if toValidate[subitem] == None:
+                            print (self.t.getMessage("missingMandatoryArtifact") + " " + item['name'] + "/"+ subitem)
+                            return False
+                    except: 
+                        print (self.t.getMessage("missingMandatoryArtifact") + " " + item['name'] + "/"+ subitem)
+                        return False
         return True
     
     
@@ -75,12 +88,21 @@ class LambdaDeployer:
         
         
     def deployLambda(self, confLambda, myLambda):
+        
         print (self.t.getMessage("zipping ") + " - " + myLambda)     
         pathToLambdaZip = '../lambdas/' + myLambda + '/'
         shutil.make_archive(myLambda, "zip", pathToLambdaZip)
         
+        if "APIGatewayConf" in confLambda.keys():
+            confGateway = confLambda["APIGatewayConf"]
+            print (self.t.getMessage("manageAPIGateway ") + " - " + confGateway['name'])          
+            self.gateway.createAPI(confGateway)
+                
+        roleName = confLambda['role'].split(":role/",1)[1]
+        print (self.t.getMessage("manageRole ") + " - " + roleName)  
+        self.iamd.manageRole(roleName, confLambda["rolePolicy"])  
+        
         print (self.t.getMessage("deploying ") + " - " + myLambda)  
-        self.iamd.manageRole(confLambda['role'].split(":role/",1)[1], confLambda["rolePolicy"])  
         self.l.createFunctionSimpleDeleteIfExists(confLambda,  "./" + myLambda + ".zip")
     
     

@@ -2,5 +2,9 @@
 	"name": "tutoLambda",
 	"handler": "hello.lambda_handler",
 	"role": "arn:aws:iam::<AccountNumber>:role/PictureSiteDefaultRole",
-	"rolePolicy": "lambdaFullAccessPolicyArn"
+	"rolePolicy": "lambdaFullAccessPolicyArn",
+	"APIGatewayConf": {
+		"name": "nameAPI",
+		"version": "0.0.1"
+	}
 }

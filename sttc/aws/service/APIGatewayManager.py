@@ -50,8 +50,8 @@ class APIGatewayManager:
         
         if "method" in confResource.keys():
             for method in confResource['method']:
-                pass
-                #self.createMethod(method, apiId, resourceId)
+                #pass
+                self.createMethod(method, apiId, resourceId)
             
         if "resource" in confResource.keys():
             self.createResource(confResource["resource"], apiId, resourceId)
@@ -71,13 +71,11 @@ class APIGatewayManager:
             httpMethod= confMethod['httpMethod'],
             authorizationType= confMethod['authorizationType'],
             authorizerId=authId,
-            apiKeyRequired=False,
-            operationName= operationName
+            apiKeyRequired=False
         )
         
         
-        methodId = response['id']
-        print(self.t.getMessage("createMethod") + " " + methodId)
+        print(self.t.getMessage("createMethod") + " " + resourceId + " : " +confMethod['httpMethod'])
         
     
     def getResourceByPath(self, rest_api_id, path):

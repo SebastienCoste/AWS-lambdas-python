@@ -13,7 +13,7 @@ At the moment, the deployment manager is in progress.
 │   │   │   ├── ConfigProvider.py       : provider of the configuration in it's resources
 │   │   │   ├── Regions.py              : manager of different regions of AWS
 │   │   ├── service
-│   │   │   ├── \*Manager.py            : managers of AWS' services like Lambda, IAM 
+│   │   │   ├── *Manager.py            : managers of AWS' services like Lambda, IAM 
 │   │   ├── resource
 │   │   │   ├── defaultConf.json        : contains every general values like arn of policies, 
 │   │   │                                   general roles for lambda creation
@@ -25,7 +25,7 @@ At the moment, the deployment manager is in progress.
 │   │   │   │   ├── deployConfig.json   : contains what's needed to configure the deployer, 
 │   │   │                                   like lambda's validation config
 │   │   ├── service  
-│   │   │   ├── \*.py                   : services needed by the deployer  
+│   │   │   ├── *.py                   : services needed by the deployer  
 │   ├── iam                             : actually unused right now ;-)
 │   ├── lambda                           
 │   │   ├── <DirectoryName>             : each directory contains one and only one lambda

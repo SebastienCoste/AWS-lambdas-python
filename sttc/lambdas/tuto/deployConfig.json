@@ -6,10 +6,42 @@
 	"APIGatewayConf": {
 		"name": "nameAPI3",
 		"version": "0.0.1",
-		"resource": {
+		"resource": [
+		{
 			"pathPart": "test",
-			"resource": {
+			"resource": [
+			{
 				"pathPart": "tuto",
+				"method": [
+					{
+						"httpMethod": "GET",
+						"authorizationType": "NONE",
+						"lambdaInfo": "linkHere"
+					},
+					{
+						"httpMethod": "POST",
+						"authorizationType": "NONE"
+					}
+				]
+			}
+			],
+			"method": [
+				{
+					"httpMethod": "GET",
+					"authorizationType": "NONE"
+				},
+				{
+					"httpMethod": "POST",
+					"authorizationType": "NONE"
+				}
+			]
+		},
+		
+		{
+			"pathPart": "test2",
+			"resource": [
+			{
+				"pathPart": "tuto2",
 				"method": [
 					{
 						"httpMethod": "GET",
@@ -20,7 +52,8 @@
 						"authorizationType": "NONE"
 					}
 				]
-			},
+			}
+			],
 			"method": [
 				{
 					"httpMethod": "GET",
@@ -32,5 +65,6 @@
 				}
 			]
 		}
+		]
 	}
 }

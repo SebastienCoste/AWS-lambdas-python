@@ -53,9 +53,13 @@ class LambdaManager:
         )
         code = response['ResponseMetadata']['HTTPStatusCode']
         print(self.t.getMessage("createFunctionSimple") + " " + str(code))
-'''
-        ,
-                'S3Bucket': lambdaConf['S3Bucket'],
-                'S3Key': lambdaConf['S3Key'],
-                'S3ObjectVersion': lambdaConf['S3ObjectVersion']
-'''
+
+
+
+
+
+
+
+
+
+

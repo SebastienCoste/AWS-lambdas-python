@@ -14,7 +14,8 @@ French= {
         "createRole": "createRole",
         "createAPI": "createAPI",
         "createResource": "createResource",
-        "createMethod": "createMethod"
+        "createMethod": "createMethod",
+        "linkLambdaAPIGateway": "linkLambdaAPIGateway"
          
          }
 
@@ -32,7 +33,8 @@ English= {
         "createRole": "createRole",
         "createAPI": "createAPI",
         "createResource": "createResource",
-        "createMethod": "createMethod"
+        "createMethod": "createMethod",
+        "linkLambdaAPIGateway": "linkLambdaAPIGateway"
         
           }
 

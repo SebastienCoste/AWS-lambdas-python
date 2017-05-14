@@ -104,6 +104,27 @@ class LambdaDeployer:
         
         print (self.t.getMessage("deploying ") + " - " + myLambda)  
         self.l.createFunctionSimpleDeleteIfExists(confLambda,  "./" + myLambda + ".zip")
+        
+        if "APIGatewayConf" in confLambda.keys():
+            confGateway = confLambda["APIGatewayConf"]
+            confLG = self.confDeployer['lambdaGateway']
+            path, method = cr.getPathAndMethodMatchingKeyValue(confGateway, confLG['keyLink'], confLG['valueLink'])
+            print (self.t.getMessage("linkLambdaAPIGateway") + " - " + confGateway['name'] + ":" + path + "-" + method)  
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
     
     
     

@@ -5,5 +5,9 @@
 			"name": "APIGatewayConf",
 			"mandatory": ["name", "version", "resource"]
 		}
-	]
+	],
+	"lambdaGateway" : {
+		"keyLink": "lambdaInfo",
+		"valueLink": "linkHere"
+	}
 }

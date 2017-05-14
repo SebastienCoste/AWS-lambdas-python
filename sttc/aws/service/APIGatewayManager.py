@@ -32,14 +32,17 @@ class APIGatewayManager:
             )
             conf['apiId'] = response['id']
             code = response['ResponseMetadata']['HTTPStatusCode']
-            print(self.t.getMessage("createAPI") + " " + conf['apiId'])
+            print(self.t.getMessage("createAPI") + " " + conf['apiId'] + "(" + code + ")")
         else:
             if not 'apiId' in conf.keys():
                 conf['apiId'] = api['id']
                 
         root = self.getResourceByPath(conf['apiId'], "/")
         print(self.t.getMessage("createResource") + " " + root['id'])
-        self.createResource(conf['resource'], conf['apiId'], root['id'], "/")
+        
+        if "resource" in conf.keys():
+            for resource in conf['resource']:
+                self.createResource(resource, conf['apiId'], root['id'], "/")
         
         
     def createResource(self, confResource, apiId, parentId, absoluteParentPath):
@@ -65,7 +68,8 @@ class APIGatewayManager:
                 self.createMethod(method, apiId, resourceId)
             
         if "resource" in confResource.keys():
-            self.createResource(confResource["resource"], apiId, resourceId, absolutePath)
+            for resource in confResource['resource']:
+                self.createResource(resource, apiId, resourceId, absolutePath)
         
         
     def createMethod(self, confMethod, apiId, resourceId):

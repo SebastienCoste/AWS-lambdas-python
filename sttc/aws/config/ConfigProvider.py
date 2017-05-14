@@ -30,3 +30,6 @@ class ConfigProvider:
     #TODO
     def getAccountNumber(self):
         return self.accountNumber
+    
+    def getRegion(self):
+        return self.region

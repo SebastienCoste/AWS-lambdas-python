@@ -158,12 +158,26 @@ class APIGatewayManager:
             return None
         
         
-    def linkMethodAndLambda(self, apiName, path, httpMethod, confLambda):
+    def linkMethodAndLambda(self, apiName, path, httpMethod, confLambda, uri):
         
-        api = self.getApiByName(apiName)
+        api = self.getApiByNameOrId(name=apiName)
         resource = self.getResourceByPath(api['id'], path)
         method = self.getMethodOfResource(api['id'], resource['id'], httpMethod)
         #TODO next
+        
+        accNum = self.conf.getAccountNumber() 
+        region = self.conf.getRegion()
+        url = uri.replace("<AccountNumber>", accNum).replace("<region>", region) \
+            .replace("<lambdaName>", apiName).replace("<apiVersion>", api['version'])
+        
+        self.gateway.put_integration(
+                restApiId=api['id'],
+                resourceId=resource['id'],
+                httpMethod=httpMethod,
+                integrationHttpMethod=httpMethod,
+                type="AWS",
+                uri=url
+                )
         
         
         

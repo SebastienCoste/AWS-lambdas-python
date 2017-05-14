@@ -8,6 +8,9 @@
 	],
 	"lambdaGateway" : {
 		"keyLink": "lambdaInfo",
-		"valueLink": "linkHere"
+		"valueLink": "linkHere",
+		"lambdaUriOLD": "arn:aws:lambda:<server>:<AccountNumber>:function:<lambdaName>",
+		"lambdaUri": "arn:aws:apigateway:<region>:lambda:path/<apiVersion>/functions/arn:aws:lambda:<region>:<AccountNumber>:function:<lambdaName>/invocations"
 	}
 }
+

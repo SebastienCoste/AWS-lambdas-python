@@ -9,7 +9,6 @@ from sttc.deploy.service.LambdaDeployer import LambdaDeployer
 from sttc.deploy.service.IAMDeployer import IAMDeployer
 
 
-DEPLOY_REGION_ZONE = "IRL"
 DEPLOY_CONFIG_NAME = "deployConfig.json"
 DEPLOY_CONFIG_FILEPATH = "./resource"
     
@@ -17,6 +16,7 @@ def loadConfigDeployer():
     deployerConf = join(DEPLOY_CONFIG_FILEPATH, DEPLOY_CONFIG_NAME)
     return cr.readJson(t, deployerConf)
 
+        
     
 if __name__ == '__main__':
     
@@ -24,9 +24,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.parse_args()
     parser.add_argument("-l", "--lan", help="language: 'fr'(default) or 'en'")
+    parser.add_argument("-r", "--region", help="region: 'IRL'(default). Available: NYC: us-east-2 SF: us-west-1 IRL: eu-west-1 ALL: eu-central-1 CAN: ca-central-1")
     parser.add_argument("-fp", "--filepath", help="filepath: relative or absolute filepath to the root directory of all lambdas. Default : ../lambdas")
     args = parser.parse_args()
     lan = "EN"
+    region = "IRL"
     rootLambdaPath = "../lambdas"
     if args.lan:
         if args.lan.upper() in m.authorizedLan:
@@ -44,7 +46,7 @@ if __name__ == '__main__':
         exit(1)
         
     '''working on iam'''
-    iamd = IAMDeployer(DEPLOY_REGION_ZONE, t)
+    iamd = IAMDeployer(region, t)
     iamd.manageIAM()
         
     ''' working on lambdas'''

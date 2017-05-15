@@ -3,6 +3,7 @@
 from os.path import join
 import argparse
 from sttc.deploy.service import Messages as m
+from sttc.aws.config import Regions as r
 from sttc.deploy.service.Translator import Translator
 from sttc.deploy.service import ConfReader as cr
 from sttc.deploy.service.LambdaDeployer import LambdaDeployer
@@ -37,6 +38,11 @@ if __name__ == '__main__':
             raise Exception("Unrecognized language")
     if args.filepath:
         rootLambdaPath = args.filepath.lower()
+    if args.region:
+        region = args.region.upper()
+        if not region in r.REGION_GEO.keys():
+            raise Exception("Unrecognized region")
+            
         
     ''' loading tools'''
     t = Translator(lan)    
@@ -45,12 +51,8 @@ if __name__ == '__main__':
         print (t.getMessage("errorLoadingDeployerConfig"))
         exit(1)
         
-    '''working on iam'''
-    iamd = IAMDeployer(region, t)
-    iamd.manageIAM()
-        
     ''' working on lambdas'''
-    ld = LambdaDeployer(t, DEPLOY_REGION_ZONE, rootLambdaPath, DEPLOY_CONFIG_NAME, confDeployer)
+    ld = LambdaDeployer(t, region, rootLambdaPath, DEPLOY_CONFIG_NAME, confDeployer)
     ld.manageLambda()
     
     

@@ -13,8 +13,5 @@ class IAMDeployer():
         self.t = translator
         self.iam = IAMManager(self.zone, self.t)
     
-    def manageIAM(self):
-        pass
-    
     def manageRole(self, rolename, rolePolicyArn):
         self.iam.createRoleIfNotExists(rolename, rolePolicyArn)

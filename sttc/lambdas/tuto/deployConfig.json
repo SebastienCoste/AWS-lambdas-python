@@ -5,7 +5,6 @@
 	"rolePolicy": "lambdaFullAccessPolicyArn",
 	"APIGatewayConf": {
 		"name": "nameAPI4",
-		"version": "0.0.1",
 		"stageName": "PROD",
 		"resource": [
 			{
@@ -15,7 +14,7 @@
 						"pathPart": "tuto",
 						"method": [
 							{
-								"httpMethod": "POST",
+								"httpMethod": "GET",
 								"authorizationType": "NONE",
 								"apiKeyRequired": "True",
 								"lambdaInfo": "linkHere",

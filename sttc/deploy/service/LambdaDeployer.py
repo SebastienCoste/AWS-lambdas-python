@@ -93,10 +93,12 @@ class LambdaDeployer:
         pathToLambdaZip = '../lambdas/' + myLambda + '/'
         shutil.make_archive(myLambda, "zip", pathToLambdaZip)
         
+        lambdaVersion = self.l.getLambdaVersion()
+        
         if "APIGatewayConf" in confLambda.keys():
             confGateway = confLambda["APIGatewayConf"]
             print (self.t.getMessage("manageAPIGateway") + " - " + confGateway['name'])          
-            self.gateway.createAPI(confGateway)
+            self.gateway.createAPI(confGateway, lambdaVersion)
                 
         roleName = confLambda['role'].split(":role/",1)[1]
         print (self.t.getMessage("manageRole ") + " - " + roleName)  
@@ -113,7 +115,7 @@ class LambdaDeployer:
                 print (self.t.getMessage("linkLambdaAPIGateway") + " - " + confGateway['name'] + ":" + path + "-" + method)  
                 apiId = self.gateway.getApiByNameOrId(name=confGateway['name'])['id']
                 
-                self.gateway.linkMethodAndLambda(confGateway['name'], path, method, confLambda, confLG['lambdaUri'])
+                self.gateway.linkMethodAndLambda(confGateway['name'], path, method, confLambda, confLG['lambdaUri'], lambdaVersion)
                 
                 self.gateway.linkToIntegration(confGateway)
                 

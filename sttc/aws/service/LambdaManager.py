@@ -10,6 +10,9 @@ class LambdaManager:
         self.client = boto3.client('lambda', region_name=self.conf.region)
         
     
+    def getLambdaVersion(self):
+        
+        return self.client.meta.service_model.api_version
     
     def deleteFunction(self, lambdaConf):
         

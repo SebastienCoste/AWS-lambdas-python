@@ -22,14 +22,14 @@ class APIGatewayManager:
        give the role to call lambdas
        '''
        
-    def createAPI(self, conf):
+    def createAPI(self, conf, lambdaVersion):
         
         api = self.getApiByNameOrId(name=conf['name'])
         if api == None:
             response = self.gateway.create_rest_api(
                 name=conf["name"],
                 description='auto generated API',
-                version=conf["version"]
+                version = lambdaVersion
             )
             conf['apiId'] = response['id']
             code = response['ResponseMetadata']['HTTPStatusCode']
@@ -210,7 +210,7 @@ class APIGatewayManager:
             return None
         
         
-    def linkMethodAndLambda(self, apiName, path, httpMethod, confLambda, uri):
+    def linkMethodAndLambda(self, apiName, path, httpMethod, confLambda, uri, lambdaVersion):
         
         api = self.getApiByNameOrId(name=apiName)
         resource = self.getResourceByPath(api['id'], path)
@@ -219,7 +219,7 @@ class APIGatewayManager:
         accNum = self.conf.getAccountNumber() 
         region = self.conf.getRegion()
         url = uri.replace("<AccountNumber>", accNum).replace("<region>", region) \
-            .replace("<lambdaName>", apiName).replace("<apiVersion>", api['version'])
+            .replace("<lambdaName>", confLambda['name']).replace("<apiVersion>", lambdaVersion)
         
         self.gateway.put_integration(
                 restApiId=api['id'],

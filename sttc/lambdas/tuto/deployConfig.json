@@ -4,7 +4,7 @@
 	"role": "arn:aws:iam::<AccountNumber>:role/PictureSiteDefaultRole",
 	"rolePolicy": "lambdaFullAccessPolicyArn",
 	"APIGatewayConf": {
-		"name": "nameAPI3",
+		"name": "nameAPI4",
 		"version": "0.0.1",
 		"resource": [
 		{
@@ -16,7 +16,13 @@
 					{
 						"httpMethod": "GET",
 						"authorizationType": "NONE",
-						"lambdaInfo": "linkHere"
+						"lambdaInfo": "linkHere",
+						"routeResponse" : [
+							{ 
+								"regex": ".*",
+								"code": "200"
+							}
+						]
 					},
 					{
 						"httpMethod": "POST",

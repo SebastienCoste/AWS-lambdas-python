@@ -7,6 +7,7 @@ from sttc.aws.config.ConfigProvider import ConfigProvider
 import boto3
 from os.path import join
 
+
 class APIGatewayManager:
 
     def __init__(self, zone, translator):
@@ -32,7 +33,7 @@ class APIGatewayManager:
             )
             conf['apiId'] = response['id']
             code = response['ResponseMetadata']['HTTPStatusCode']
-            print(self.t.getMessage("createAPI") + " " + conf['apiId'] + "(" + code + ")")
+            print(self.t.getMessage("createAPI") + " " + conf['apiId'] + "(" + str(code) + ")")
         else:
             if not 'apiId' in conf.keys():
                 conf['apiId'] = api['id']
@@ -100,8 +101,58 @@ class APIGatewayManager:
             )
             print(self.t.getMessage("createMethod") + " " + resourceId + " : " +confMethod['httpMethod'])
         
+        #now define the response. Example:
+        #"routeResponse" : [{ "regex": ".*","code": "200"}
+        if 'routeResponse' in confMethod.keys():
+            for route in confMethod['routeResponse']:
+                
+                try:
+                    self.gateway.get_method_response(
+                        restApiId=apiId,
+                        resourceId=resourceId,
+                        httpMethod=confMethod['httpMethod'],
+                        statusCode=route['code']
+                    )
+                except :
+                    self.gateway.put_method_response(
+                        restApiId=apiId,
+                        resourceId=resourceId,
+                        httpMethod=confMethod['httpMethod'],
+                        statusCode=route['code']
+                    )
+
         
         
+    def linkToIntegration(self, conf):
+        
+        api = self.getApiByNameOrId(name=conf['name'])
+        if "resource" in conf.keys():
+            for resource in conf['resource']:
+                self.treatResourceForLink(api, resource, "/")
+                
+        
+    def treatResourceForLink(self, api, resource, path):
+        
+        absolutePath = join(path, resource['pathPart'])
+        apiResource = None
+        if "method" in resource.keys():
+            for method in resource['method']:
+                if 'routeResponse' in method.keys():
+                    if apiResource == None:
+                        apiResource = self.getResourceByPath(api['id'], absolutePath)
+                    for route in method['routeResponse']:
+                        self.gateway.put_integration_response(
+                                    restApiId=api['id'],
+                                    resourceId=apiResource['id'],
+                                    httpMethod=method['httpMethod'],
+                                    statusCode=route['code'],
+                                    selectionPattern=route['regex']
+                                )   
+                                 
+        if "resource" in resource.keys():
+            for surResource in resource['resource']:
+                self.treatResourceForLink(api, surResource, absolutePath)
+                
         
     def removeMethod(self, httpMethod, apiId, resourceId):
         
@@ -127,6 +178,7 @@ class APIGatewayManager:
         except:
             return None
         
+    
     
     def getApiByNameOrId(self, name=None, apiId=None ):
         
@@ -178,7 +230,6 @@ class APIGatewayManager:
                 type="AWS",
                 uri=url
                 )
-        
         
         
         

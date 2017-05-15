@@ -111,8 +111,12 @@ class LambdaDeployer:
             path, method = cr.getPathAndMethodMatchingKeyValue(confGateway, confLG['keyLink'], confLG['valueLink'])
             if path != None and method != None:
                 print (self.t.getMessage("linkLambdaAPIGateway") + " - " + confGateway['name'] + ":" + path + "-" + method)  
-                self.gateway.linkMethodAndLambda(confLambda["APIGatewayConf"]['name'], path, method, confLambda, confLG['lambdaUri'])
-            
+                apiId = self.gateway.getApiByNameOrId(name=confGateway['name'])['id']
+                
+                self.gateway.linkMethodAndLambda(confGateway['name'], path, method, confLambda, confLG['lambdaUri'])
+                
+                self.l.linkTogatewayPath(confLambda['name'], apiId, path, method)
+                self.gateway.linkToIntegration(confGateway)
             
             
             

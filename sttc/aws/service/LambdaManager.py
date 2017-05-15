@@ -55,9 +55,21 @@ class LambdaManager:
         print(self.t.getMessage("createFunctionSimple") + " " + str(code))
 
 
-
-
-
+    def linkTogatewayPath(self, lambdaName, apiId, httpPath, httpMethod):
+        
+        accountId = self.conf.getAccountNumber() 
+        region = self.conf.getRegion()
+       
+        
+        self.client.add_permission(
+              FunctionName=lambdaName,
+              StatementId=lambdaName+"ID",
+              Action="lambda:InvokeFunction",
+              Principal="apigateway.amazonaws.com",
+              SourceArn="arn:aws:execute-api:"+region+":"+accountId+":"+apiId+"/*/"+httpMethod+"/"+httpPath
+        )
+        
+        
 
 
 

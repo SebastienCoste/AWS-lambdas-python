@@ -58,12 +58,12 @@ class LambdaManager:
         print(self.t.getMessage("createFunctionSimple") + " " + str(code))
 
 
-    def linkTogatewayPath(self, lambdaName, apiId, httpPath, httpMethod, arn):
+    def linkTogatewayPath(self, lambdaName, apiId, httpPath, httpMethod, arn, path):
         
         accountId = self.conf.getAccountNumber() 
         region = self.conf.getRegion()
         arn = arn.replace("<AccountNumber>", accountId).replace("<region>", region) \
-            .replace("<lambdaName>", lambdaName).replace("<httpMethod>", httpMethod) \
+            .replace("<lambdaName>", path).replace("<httpMethod>", httpMethod) \
             .replace("<apiId>", apiId)
         
         self.client.add_permission(
@@ -73,8 +73,6 @@ class LambdaManager:
               Principal="apigateway.amazonaws.com",
               SourceArn=arn
         )
-        
-        
         
 
 

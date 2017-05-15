@@ -12,6 +12,7 @@ from sttc.deploy.service import ConfReader as cr
 from os.path import isdir, join
 from os import listdir
 import shutil
+from pprint import pprint
 
 
 class LambdaDeployer:
@@ -119,11 +120,15 @@ class LambdaDeployer:
                 
                 self.gateway.linkToIntegration(confGateway)
                 
-                self.l.linkTogatewayPath(confLambda['name'], apiId, path, method, confLG['lambdaGatewayPermition'])
+                self.l.linkTogatewayPath(confLambda['name'], apiId, path, method, confLG['lambdaGatewayPermission'], path)
             
                 self.gateway.deployStage(apiId, confGateway['stageName'])
             
-            
+                rest = self.l.client.get_policy(
+                    FunctionName=confLambda['name']
+                )
+                
+                pprint(rest['Policy'])
             
             
             

@@ -14,7 +14,7 @@
 						"pathPart": "tuto",
 						"method": [
 							{
-								"httpMethod": "GET",
+								"httpMethod": "POST",
 								"authorizationType": "NONE",
 								"apiKeyRequired": "True",
 								"lambdaInfo": "linkHere",

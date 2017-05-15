@@ -10,7 +10,7 @@
 		"keyLink": "lambdaInfo",
 		"valueLink": "linkHere",
 		"lambdaUri": "arn:aws:apigateway:<region>:lambda:path/<apiVersion>/functions/arn:aws:lambda:<region>:<AccountNumber>:function:<lambdaName>/invocations",
-		"lambdaGatewayPermition": "arn:aws:execute-api:<region>:<AccountNumber>:<apiId>/*/<httpMethod>/<lambdaName>"
+		"lambdaGatewayPermission": "arn:aws:execute-api:<region>:<AccountNumber>:<apiId>/*/<httpMethod>/<lambdaName>"
 	
 	}
 }

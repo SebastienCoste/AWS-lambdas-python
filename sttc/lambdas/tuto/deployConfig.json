@@ -6,71 +6,30 @@
 	"APIGatewayConf": {
 		"name": "nameAPI4",
 		"version": "0.0.1",
+		"stageName": "PROD",
 		"resource": [
-		{
-			"pathPart": "test",
-			"resource": [
 			{
-				"pathPart": "tuto",
-				"method": [
+				"pathPart": "test",
+				"resource": [
 					{
-						"httpMethod": "GET",
-						"authorizationType": "NONE",
-						"lambdaInfo": "linkHere",
-						"routeResponse" : [
-							{ 
-								"regex": ".*",
-								"code": "200"
+						"pathPart": "tuto",
+						"method": [
+							{
+								"httpMethod": "POST",
+								"authorizationType": "NONE",
+								"apiKeyRequired": "True",
+								"lambdaInfo": "linkHere",
+								"routeResponse" : [
+									{ 
+										"regex": ".*",
+										"code": "200"
+									}
+								]
 							}
 						]
-					},
-					{
-						"httpMethod": "POST",
-						"authorizationType": "NONE"
 					}
 				]
 			}
-			],
-			"method": [
-				{
-					"httpMethod": "GET",
-					"authorizationType": "NONE"
-				},
-				{
-					"httpMethod": "POST",
-					"authorizationType": "NONE"
-				}
-			]
-		},
-		
-		{
-			"pathPart": "test2",
-			"resource": [
-			{
-				"pathPart": "tuto2",
-				"method": [
-					{
-						"httpMethod": "GET",
-						"authorizationType": "NONE"
-					},
-					{
-						"httpMethod": "POST",
-						"authorizationType": "NONE"
-					}
-				]
-			}
-			],
-			"method": [
-				{
-					"httpMethod": "GET",
-					"authorizationType": "NONE"
-				},
-				{
-					"httpMethod": "POST",
-					"authorizationType": "NONE"
-				}
-			]
-		}
 		]
 	}
 }

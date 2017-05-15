@@ -1,6 +1,6 @@
 from sttc.aws.config.ConfigProvider import ConfigProvider
 import boto3
-import gzip
+import uuid
 
 class LambdaManager:
     
@@ -55,19 +55,22 @@ class LambdaManager:
         print(self.t.getMessage("createFunctionSimple") + " " + str(code))
 
 
-    def linkTogatewayPath(self, lambdaName, apiId, httpPath, httpMethod):
+    def linkTogatewayPath(self, lambdaName, apiId, httpPath, httpMethod, arn):
         
         accountId = self.conf.getAccountNumber() 
         region = self.conf.getRegion()
-       
+        arn = arn.replace("<AccountNumber>", accountId).replace("<region>", region) \
+            .replace("<lambdaName>", lambdaName).replace("<httpMethod>", httpMethod) \
+            .replace("<apiId>", apiId)
         
         self.client.add_permission(
               FunctionName=lambdaName,
-              StatementId=lambdaName+"ID",
+              StatementId=uuid.uuid4().hex,
               Action="lambda:InvokeFunction",
               Principal="apigateway.amazonaws.com",
-              SourceArn="arn:aws:execute-api:"+region+":"+accountId+":"+apiId+"/*/"+httpMethod+"/"+httpPath
+              SourceArn=arn
         )
+        
         
         
 

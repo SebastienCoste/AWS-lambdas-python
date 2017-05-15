@@ -97,7 +97,7 @@ class APIGatewayManager:
                 httpMethod= confMethod['httpMethod'],
                 authorizationType= confMethod['authorizationType'],
                 authorizerId=authId,
-                apiKeyRequired=False
+                apiKeyRequired=confMethod['apiKeyRequired'] == 'True'
             )
             print(self.t.getMessage("createMethod") + " " + resourceId + " : " +confMethod['httpMethod'])
         
@@ -214,7 +214,6 @@ class APIGatewayManager:
         
         api = self.getApiByNameOrId(name=apiName)
         resource = self.getResourceByPath(api['id'], path)
-        method = self.getMethodOfResource(api['id'], resource['id'], httpMethod)
         #TODO next
         
         accNum = self.conf.getAccountNumber() 
@@ -232,7 +231,20 @@ class APIGatewayManager:
                 )
         
         
+    def deployStage(self, apiId, stageName):
         
+        
+        res = self.gateway.create_deployment(
+            restApiId=apiId,
+            stageName=stageName
+        )
+        '''
+        res2 = self.gateway.create_stage(
+            restApiId=apiId,
+            stageName=stageName,
+            deploymentId=stageName
+        )
+        '''
         
         
         

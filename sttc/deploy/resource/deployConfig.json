@@ -3,14 +3,16 @@
 	"conditionnalMandatory":[
 		{
 			"name": "APIGatewayConf",
-			"mandatory": ["name", "version", "resource"]
+			"mandatory": ["name", "version", "resource", "stageName"]
 		}
 	],
 	"lambdaGateway" : {
 		"keyLink": "lambdaInfo",
 		"valueLink": "linkHere",
 		"lambdaUriOLD": "arn:aws:lambda:<server>:<AccountNumber>:function:<lambdaName>",
-		"lambdaUri": "arn:aws:apigateway:<region>:lambda:path/<apiVersion>/functions/arn:aws:lambda:<region>:<AccountNumber>:function:<lambdaName>/invocations"
+		"lambdaUri": "arn:aws:apigateway:<region>:lambda:path/<apiVersion>/functions/arn:aws:lambda:<region>:<AccountNumber>:function:<lambdaName>/invocations",
+		"lambdaGatewayPermition": "arn:aws:execute-api:<region>:<AccountNumber>:<apiId>/*/<httpMethod>/<lambdaName>"
+	
 	}
 }
 

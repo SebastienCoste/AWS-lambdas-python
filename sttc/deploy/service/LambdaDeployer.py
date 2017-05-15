@@ -115,9 +115,11 @@ class LambdaDeployer:
                 
                 self.gateway.linkMethodAndLambda(confGateway['name'], path, method, confLambda, confLG['lambdaUri'])
                 
-                self.l.linkTogatewayPath(confLambda['name'], apiId, path, method)
                 self.gateway.linkToIntegration(confGateway)
+                
+                self.l.linkTogatewayPath(confLambda['name'], apiId, path, method, confLG['lambdaGatewayPermition'])
             
+                self.gateway.deployStage(apiId, confGateway['stageName'])
             
             
             

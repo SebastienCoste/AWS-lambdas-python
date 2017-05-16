@@ -45,6 +45,7 @@ class APIGatewayManager:
             for resource in conf['resource']:
                 self.createResource(resource, conf['apiId'], root['id'], "/")
         
+        #TODO: create if not exists a usage plan named like the API gateway
         
     def createResource(self, confResource, apiId, parentId, absoluteParentPath):
         
@@ -234,10 +235,15 @@ class APIGatewayManager:
     def deployStage(self, apiId, stageName):
         
         
+        
         res = self.gateway.create_deployment(
             restApiId=apiId,
             stageName=stageName
         )
+        
+        #TODO: if not present, link the stage to the usage plan named like the API gateway (already created with the API)
+        #Now when a user is created, to allow him the access, we have to link his api key to the usage plan. 
+        #If apiKey is required by the resource's method, this will be mandatory
         '''
         res2 = self.gateway.create_stage(
             restApiId=apiId,

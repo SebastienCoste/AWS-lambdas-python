@@ -16,7 +16,7 @@
 							{
 								"httpMethod": "POST",
 								"authorizationType": "NONE",
-								"apiKeyRequired": "True",
+								"apiKeyRequired": "False",
 								"lambdaInfo": "linkHere",
 								"routeResponse" : [
 									{ 

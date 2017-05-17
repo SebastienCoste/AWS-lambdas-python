@@ -21,7 +21,9 @@ class APIGatewayManager:
        and add a method to that Resource.
        give the role to call lambdas
        '''
-       
+    def getRegion(self):
+        return self.conf.getRegion()
+    
     def createAPI(self, conf, lambdaVersion):
         
         api = self.getApiByNameOrId(name=conf['name'])

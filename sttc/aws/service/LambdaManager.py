@@ -64,7 +64,7 @@ class LambdaManager:
         region = self.conf.getRegion()
         arn = arn.replace("<AccountNumber>", accountId).replace("<region>", region) \
             .replace("<lambdaName>", path).replace("<httpMethod>", httpMethod) \
-            .replace("<apiId>", apiId)
+            .replace("<apiId>", apiId).replace("//", "/")
         
         self.client.add_permission(
               FunctionName=lambdaName,

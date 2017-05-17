@@ -128,8 +128,8 @@ class LambdaDeployer:
                     FunctionName=confLambda['name']
                 )
                 
-                pprint(rest['Policy'])
-            
+                pprint(rest['Policy'])  
+                print("https://" + apiId + ".execute-api." + self.gateway.getRegion() + ".amazonaws.com/" + confGateway['stageName'] + path)
             
             
             

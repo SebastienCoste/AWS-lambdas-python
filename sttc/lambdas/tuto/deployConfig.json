@@ -4,7 +4,7 @@
 	"role": "arn:aws:iam::<AccountNumber>:role/PictureSiteDefaultRole",
 	"rolePolicy": "lambdaFullAccessPolicyArn",
 	"APIGatewayConf": {
-		"name": "nameAPI4",
+		"name": "nameAPI5",
 		"stageName": "PROD",
 		"resource": [
 			{

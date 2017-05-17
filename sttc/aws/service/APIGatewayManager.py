@@ -142,7 +142,7 @@ class APIGatewayManager:
                         restApiId=apiId,
                         resourceId=resourceId,
                         httpMethod="OPTIONS",
-                        statusCode=route['code'],
+                        statusCode="200",
                         responseParameters={
                             'method.response.header.Access-Control-Allow-Headers': True,
                             'method.response.header.Access-Control-Allow-Origin': True,
@@ -190,7 +190,7 @@ class APIGatewayManager:
                             restApiId=api['id'],
                             resourceId=apiResource['id'],
                             httpMethod="OPTIONS",
-                            statusCode=route['code'],
+                            statusCode="200",
                             selectionPattern=route['regex'],
                             responseParameters={
                                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",

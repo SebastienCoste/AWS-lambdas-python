@@ -102,6 +102,14 @@ class APIGatewayManager:
                 authorizerId=authId,
                 apiKeyRequired=confMethod['apiKeyRequired'] == 'True'
             )
+            
+            self.gateway.put_method(
+                restApiId=apiId,
+                resourceId=resourceId,
+                httpMethod="OPTIONS",
+                authorizationType="NONE"
+            )
+            
             print(self.t.getMessage("createMethod") + " " + resourceId + " : " +confMethod['httpMethod'])
         
         #now define the response. Example:
@@ -121,7 +129,28 @@ class APIGatewayManager:
                         restApiId=apiId,
                         resourceId=resourceId,
                         httpMethod=confMethod['httpMethod'],
-                        statusCode=route['code']
+                        statusCode=route['code'],
+                        responseParameters={
+                            'method.response.header.Access-Control-Allow-Origin': True
+                        },
+                        responseModels={
+                            'application/json': 'Empty'
+                        }
+                    )
+                    
+                    self.gateway.put_method_response(
+                        restApiId=apiId,
+                        resourceId=resourceId,
+                        httpMethod="OPTIONS",
+                        statusCode=route['code'],
+                        responseParameters={
+                            'method.response.header.Access-Control-Allow-Headers': True,
+                            'method.response.header.Access-Control-Allow-Origin': True,
+                            'method.response.header.Access-Control-Allow-Methods': True 
+                        },
+                        responseModels={
+                            'application/json': 'Empty'
+                        }
                     )
 
         
@@ -149,8 +178,29 @@ class APIGatewayManager:
                                     resourceId=apiResource['id'],
                                     httpMethod=method['httpMethod'],
                                     statusCode=route['code'],
-                                    selectionPattern=route['regex']
-                                )   
+                                    selectionPattern=route['regex'],
+                                    responseParameters={
+                                        'method.response.header.Access-Control-Allow-Origin': "'*'"
+                                    },
+                                    responseTemplates={
+                                        'application/json': ''
+                                    }
+                                )
+                        self.gateway.put_integration_response(
+                            restApiId=api['id'],
+                            resourceId=apiResource['id'],
+                            httpMethod="OPTIONS",
+                            statusCode=route['code'],
+                            selectionPattern=route['regex'],
+                            responseParameters={
+                                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                                "method.response.header.Access-Control-Allow-Methods": "'*'",
+                                "method.response.header.Access-Control-Allow-Origin": "'*'"
+                            },
+                            responseTemplates={
+                                'application/json': ''
+                            }
+                        )   
                                  
         if "resource" in resource.keys():
             for surResource in resource['resource']:
@@ -225,13 +275,23 @@ class APIGatewayManager:
             .replace("<lambdaName>", confLambda['name']).replace("<apiVersion>", lambdaVersion)
         
         self.gateway.put_integration(
-                restApiId=api['id'],
-                resourceId=resource['id'],
-                httpMethod=httpMethod,
-                integrationHttpMethod=httpMethod,
-                type="AWS",
-                uri=url
-                )
+            restApiId=api['id'],
+            resourceId=resource['id'],
+            httpMethod=httpMethod,
+            integrationHttpMethod=httpMethod,
+            type="AWS",
+            uri=url
+            )
+        
+        self.gateway.put_integration(
+            restApiId=api['id'],
+            resourceId=resource['id'],
+            httpMethod="OPTIONS",
+            type="MOCK",
+            requestTemplates={
+                'application/json': '{"statusCode": 200}'
+            }
+        )
         
         
     def deployStage(self, apiId, stageName):

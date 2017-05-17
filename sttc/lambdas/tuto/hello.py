@@ -12,7 +12,8 @@ def lambda_handler(event, context):
     print(listBuckets())
     return event['key1']'''  # Echo back the first key value
     #raise Exception('Something went wrong')
-    return "hello"
+    list = readJson("./phones.json")
+    return list
     
 def listBuckets():
 
@@ -22,3 +23,15 @@ def listBuckets():
         result.append(bucket.name)
 
     return result
+
+
+def readJson(filepath):
+    
+    try:
+        with open(filepath) as data_file:    
+            data = json.load(data_file)
+            return data
+    except:
+        print ("errorLoadingJson")
+        return None
+    

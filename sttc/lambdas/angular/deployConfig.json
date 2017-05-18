@@ -1,0 +1,34 @@
+{
+	"name": "angular",
+	"handler": "hello.lambda_handler",
+	"role": "arn:aws:iam::<AccountNumber>:role/PictureSiteDefaultRole",
+	"rolePolicy": "lambdaFullAccessPolicyArn",
+	"APIGatewayConf": {
+		"name": "ANGULAR",
+		"stageName": "ANGULAR",
+		"resource": [
+			{
+				"pathPart": "test",
+				"resource": [
+					{
+						"pathPart": "angular",
+						"method": [
+							{
+								"httpMethod": "POST",
+								"authorizationType": "NONE",
+								"apiKeyRequired": "False",
+								"lambdaInfo": "linkHere",
+								"routeResponse" : [
+									{ 
+										"regex": ".*",
+										"code": "200"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+}

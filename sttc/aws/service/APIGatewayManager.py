@@ -296,8 +296,6 @@ class APIGatewayManager:
         
     def deployStage(self, apiId, stageName):
         
-        
-        
         res = self.gateway.create_deployment(
             restApiId=apiId,
             stageName=stageName

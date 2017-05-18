@@ -29,20 +29,19 @@ class LambdaDeployer:
         
         
     def manageLambda(self):
-        confLambda = None
-        while confLambda == None:
-            myLambda = self.getLambdaDir(self.root)
+        allMyLambda = self.getAllLambdaDir(self.root)
+        for myLambda in allMyLambda:
             confLambda = self.getConfig(join(self.root, myLambda), self.confDeployer)
-        
-        self.deployLambda(confLambda, myLambda)
+            if not confLambda == None:
+                self.deployLambda(confLambda, myLambda)
       
 
     def getLambdaDir(self, path):
         onlyDir = [f for f in listdir(path) if isdir(join(path, f))]
         if onlyDir == None or len(onlyDir) == 0:
             raise Exception(self.t.getMessage("emptyDirs"))
-        number = 1
         print (self.t.getMessage("chooseLambda"))
+        number = 0
         for dir in onlyDir:
             print (str(number) + " - " + dir)
             number +=1
@@ -54,6 +53,12 @@ class LambdaDeployer:
             except: 
                 res = 0
         return onlyDir[res -1]
+    
+    def getAllLambdaDir(self, path):
+        onlyDir = [f for f in listdir(path) if isdir(join(path, f))]
+        if onlyDir == None or len(onlyDir) == 0:
+            raise Exception(self.t.getMessage("emptyDirs"))
+        return onlyDir
     
     
     def validateConf(self, conf, confDeployer):

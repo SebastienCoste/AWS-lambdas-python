@@ -1,58 +1,65 @@
 {
-	buckets:[
+	"bucketSubdomain": "wedding",
+	"dnsDomain": "sebastiencoste.info",
+	"sendReport": [
+		{
+			"type": "lambda",
+			"destimation": "../../../Wedding/"
+		}
+	],
+	"source": {
+		"relativePath": "../../../Wedding/",
+		"pathOfBuiltFiles": "dist/",
+		"prepareScript": {
+			"relativePath": "../../../Wedding/",
+			"pathOfBuiltFiles": "dist/",
+			"prepareScript": {
+				"filename": "configureDeploy.py",
+				"arguments": [
+					{
+						"--destinationFile": "app/conf/lambdas.json"
+					},
+					{
+						"--lambdaReport": "lambdaReport.json"
+					}
+				]
+			},
+			"buildCommand": "gulp build"
+		},
+		"bucketPermissions": [
 			{
-				"bucketName":"bucketName";
-				"source": {
-							"relativePath": "../myproject/",
-							"pathToBuiltFiles": "dist/",
-							"prepareScript": {
-												"filename": "configure.py",
-												"arguments": [
-																"--destinationFile": "app/conf/lambdas.json",
-																"--relativePathTolambda": "./lambdas"
-															]
-											},
-							"buildCommand": "gulp build"
-							},
-				
-				"bucketPermissions": [
-									{
-										"name": "all",
-										"objectAccess": "read",
-										"permissionAccess": "read"
-									}
-								],
-				"bucketHosting": {	"routingRules": {
-													"hostName": "myAppDns",
-													"protocol": "HTTP",
-													"replaceKeyPrefixWith": "#/"
-												},
-								"indexDocument": "index.html"
-							},
-				"bucketPolicy" : {
-								  "Version": "2012-10-17",
-								  "Statement": [
-								    {
-								      "Sid": "PublicReadGetObject",
-								      "Effect": "Allow",
-								      "Principal": {
-								        "AWS": "*"
-								      },
-								      "Action": "s3:GetObject",
-								      "Resource": "arn:aws:s3:::<bucketName>/*"
-								    }
-								  ]
-								},
-				"corsConfiguration" : {
-										"allowedOrigin": "*",
-										"allowedMethod": "GET",
-										"maxAgeSeconds": "3000",
-										"allowedHeader": "Authorization"
-									  },
-				"cloudFrontConfiguration": {
-												"originDomainName": "<bucketName>.s3.amazonaws.com",
-												"viewerProtocolPolicy": "HTTP and HTTPS"
-											}
+				"name": "all",
+				"objectAccess": "read",
+				"permissionAccess": "read"
 			}
-		]
+		],
+		"bucketHosting": {
+			"routingRules": {
+				"hostName": "myAppDns",
+				"protocol": "HTTP",
+				"replaceKeyPrefixWith": "#/"
+			},
+			"indexDocument": "index.html"
+		},
+		"bucketPolicy": {
+			"Version": "2012-10-17",
+			"Statement": [
+				{
+					"Sid": "PublicReadGetObject",
+					"Effect": "Allow",
+					"Principal": {
+						"AWS": "*"
+					},
+					"Action": "s3:GetObject",
+					"Resource": "arn:aws:s3:::<bucketName>/*"
+				}
+			]
+		},
+		"corsConfiguration": {
+			"allowedOrigin": "*",
+			"allowedMethod": "GET",
+			"maxAgeSeconds": "3000",
+			"allowedHeader": "Authorization"
+		}
+	}
 }

@@ -35,5 +35,38 @@ def getPathAndMethodMatchingKeyValue(conf, key, value):
                 return getPathAndMethodFromResource("/", resource, key, value)
 
 
+class Validator():
     
+    def __init__(self, translator):
+        self.t = translator
+    
+    def getConfig(self, directory, confDeployer):
+        confpath = join(directory, self.confName)
+        conf = readJson(self.t, confpath)
+        if self.validateConf(conf, confDeployer):
+            return conf
+        else:
+            return None
+        
+    def validateConf(self, conf, confDeployer):
+        for item in confDeployer["mandatory"]:
+            try:
+                if conf[item] == None:
+                    print (self.t.getMessage("missingMandatoryArtifact") + " " + item)
+                    return False
+            except: 
+                print (self.t.getMessage("missingMandatoryArtifact") + " " + item)
+                return False
+        for item in confDeployer["conditionnalMandatory"]:
+            if item['name'] in conf.keys():
+                toValidate = conf[item['name']]
+                for subitem in item["mandatory"]:
+                    try:
+                        if toValidate[subitem] == None:
+                            print (self.t.getMessage("missingMandatoryArtifact") + " " + item['name'] + "/"+ subitem)
+                            return False
+                    except: 
+                        print (self.t.getMessage("missingMandatoryArtifact") + " " + item['name'] + "/"+ subitem)
+                        return False
+        return True
     

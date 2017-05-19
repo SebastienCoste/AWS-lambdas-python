@@ -11,55 +11,69 @@
 		"relativePath": "../../../Wedding/",
 		"pathOfBuiltFiles": "dist/",
 		"prepareScript": {
-			"relativePath": "../../../Wedding/",
-			"pathOfBuiltFiles": "dist/",
-			"prepareScript": {
-				"filename": "configureDeploy.py",
-				"arguments": [
-					{
-						"--destinationFile": "app/conf/lambdas.json"
-					},
-					{
-						"--lambdaReport": "lambdaReport.json"
-					}
-				]
-			},
-			"buildCommand": "gulp build"
-		},
-		"bucketPermissions": [
-			{
-				"name": "all",
-				"objectAccess": "read",
-				"permissionAccess": "read"
-			}
-		],
-		"bucketHosting": {
-			"routingRules": {
-				"hostName": "myAppDns",
-				"protocol": "HTTP",
-				"replaceKeyPrefixWith": "#/"
-			},
-			"indexDocument": "index.html"
-		},
-		"bucketPolicy": {
-			"Version": "2012-10-17",
-			"Statement": [
+			"filename": "configureDeploy.py",
+			"arguments": [
 				{
-					"Sid": "PublicReadGetObject",
-					"Effect": "Allow",
-					"Principal": {
-						"AWS": "*"
-					},
-					"Action": "s3:GetObject",
-					"Resource": "arn:aws:s3:::<bucketName>/*"
+					"key": "--destinationFile",
+					"value": "app/conf/lambdas.json"
+				},
+				{
+					"key": "--lambdaReport",
+					"value": "lambdaReport.json"
 				}
 			]
 		},
-		"corsConfiguration": {
-			"allowedOrigin": "*",
-			"allowedMethod": "GET",
-			"maxAgeSeconds": "3000",
-			"allowedHeader": "Authorization"
-		}
+		"buildCommand": "gulp build"
+	},
+	"bucketPermissions": {
+		"ACL": "public-read"
+	},
+	"bucketHosting": {
+		"routingRules": [
+			{
+				"Redirect": {
+					"HostName": "<bucketName>",
+					"Protocol": "http",
+					"ReplaceKeyPrefixWith": "#/"
+				}
+			}
+		],
+		"indexDocument": "index.html",
+		"errorDocument": "index.html"
+	},
+	"bucketPolicy": {
+		"Version": "2012-10-17",
+		"Statement": [
+			{
+				"Sid": "PublicReadGetObject",
+				"Effect": "Allow",
+				"Principal": {
+					"AWS": "*"
+				},
+				"Action": "s3:GetObject",
+				"Resource": "arn:aws:s3:::<bucketName>/*"
+			}
+		]
+	},
+	"corsConfiguration": {
+		"CORSRules": [
+			{
+				"AllowedMethods": [
+					"GET",
+					"PUT"
+				],
+				"ExposeHeaders": [
+					"GET",
+					"PUT"
+				],
+				"AllowedOrigins": [
+					"*"
+				],
+				"MaxAgeSeconds": 3000,
+				"AllowedHeaders": [
+					"Authorization"
+				]
+			}
+		]
 	}
 }

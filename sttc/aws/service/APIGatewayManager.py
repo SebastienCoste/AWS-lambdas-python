@@ -302,10 +302,13 @@ class APIGatewayManager:
         
     def deployStage(self, apiId, stageName):
         
-        res = self.gateway.create_deployment(
-            restApiId=apiId,
-            stageName=stageName
-        )
+        try:
+            res = self.gateway.create_deployment(
+                restApiId=apiId,
+                stageName=stageName
+            )
+        except:
+            pass
         
         #TODO: if not present, link the stage to the usage plan named like the API gateway (already created with the API)
         #Now when a user is created, to allow him the access, we have to link his api key to the usage plan. 

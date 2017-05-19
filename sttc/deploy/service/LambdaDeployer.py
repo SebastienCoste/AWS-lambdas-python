@@ -13,7 +13,6 @@ from sttc.deploy.service.ConfReader import Validator
 from os.path import isdir, join
 from os import listdir
 import shutil
-from pprint import pprint
 
 
 class LambdaDeployer:
@@ -27,16 +26,18 @@ class LambdaDeployer:
         self.l = LambdaManager(self.t, self.zone)
         self.iamd = IAMDeployer(self.zone, self.t)
         self.gateway = APIGatewayManager(self.zone, self.t)
-        self.v = Validator(self.t)
+        self.v = Validator(self.t, self.confName, "lambda")
         
         
     def manageLambda(self):
         allMyLambda = self.getAllLambdaDir(self.root)
+        fullReport = []
         for myLambda in allMyLambda:
             confLambda = self.v.getConfig(join(self.root, myLambda), self.confDeployer)
             if not confLambda == None:
-                self.deployLambda(confLambda, myLambda)
-      
+                report = self.deployLambda(confLambda, myLambda)
+                fullReport.append(report)
+        return fullReport
 
     def getAllLambdaDir(self, path):
         onlyDir = [f for f in listdir(path) if isdir(join(path, f))]
@@ -48,9 +49,12 @@ class LambdaDeployer:
         
     def deployLambda(self, confLambda, myLambda):
         
+        report = {}
+        
         print (self.t.getMessage("zipping ") + " - " + myLambda)     
         pathToLambdaZip = '../lambdas/' + myLambda + '/'
         shutil.make_archive(myLambda, "zip", pathToLambdaZip)
+        report['name'] = myLambda
         
         lambdaVersion = self.l.getLambdaVersion()
         
@@ -85,10 +89,10 @@ class LambdaDeployer:
                 rest = self.l.client.get_policy(
                     FunctionName=confLambda['name']
                 )
-                
-                pprint(rest['Policy'])  
-                print("https://" + apiId + ".execute-api." + self.gateway.getRegion() + ".amazonaws.com/" + confGateway['stageName'] + path)
-            
+                url = "https://" + apiId + ".execute-api." + self.gateway.getRegion() + ".amazonaws.com/" + confGateway['stageName'] + path
+                print()
+                report['url'] = url
+        return report
             
             
             

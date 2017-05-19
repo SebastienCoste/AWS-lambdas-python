@@ -1,0 +1,48 @@
+{
+	"bucketSubdomain": "www.wedding",
+	"dnsDomain": "sebastiencoste.info",
+	"bucketPermissions": {
+		"ACL": "public-read"
+	},
+	"bucketHosting": {
+		"RedirectAllRequestsTo": {
+			"HostName": "wedding.sebastiencoste.info",
+			"Protocol": "http"
+		}
+	},
+	"bucketPolicy": {
+		"Version": "2012-10-17",
+		"Statement": [
+			{
+				"Sid": "PublicReadGetObject",
+				"Effect": "Allow",
+				"Principal": {
+					"AWS": "*"
+				},
+				"Action": "s3:GetObject",
+				"Resource": "arn:aws:s3:::<bucketName>/*"
+			}
+		]
+	},
+	"corsConfiguration": {
+		"CORSRules": [
+			{
+				"AllowedMethods": [
+					"GET",
+					"PUT"
+				],
+				"ExposeHeaders": [
+					"GET",
+					"PUT"
+				],
+				"AllowedOrigins": [
+					"*"
+				],
+				"MaxAgeSeconds": 3000,
+				"AllowedHeaders": [
+					"Authorization"
+				]
+			}
+		]
+	}
+}

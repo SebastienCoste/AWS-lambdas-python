@@ -8,7 +8,7 @@ def readJson(t, filepath):
             data = json.load(data_file)
             return data
     except:
-        print (t.getMessage("errorLoadingJson"))
+        print (t.getMessage("errorLoadingJson") + " " + filepath)
         return None
     
     
@@ -37,8 +37,10 @@ def getPathAndMethodMatchingKeyValue(conf, key, value):
 
 class Validator():
     
-    def __init__(self, translator):
+    def __init__(self, translator, confName, typeSource):
         self.t = translator
+        self.confName = confName
+        self.type = typeSource
     
     def getConfig(self, directory, confDeployer):
         confpath = join(directory, self.confName)
@@ -49,7 +51,8 @@ class Validator():
             return None
         
     def validateConf(self, conf, confDeployer):
-        for item in confDeployer["mandatory"]:
+        
+        for item in confDeployer["mandatory"][self.type]:
             try:
                 if conf[item] == None:
                     print (self.t.getMessage("missingMandatoryArtifact") + " " + item)
@@ -57,7 +60,7 @@ class Validator():
             except: 
                 print (self.t.getMessage("missingMandatoryArtifact") + " " + item)
                 return False
-        for item in confDeployer["conditionnalMandatory"]:
+        for item in confDeployer["conditionnalMandatory"][self.type]:
             if item['name'] in conf.keys():
                 toValidate = conf[item['name']]
                 for subitem in item["mandatory"]:

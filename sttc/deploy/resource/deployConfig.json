@@ -1,17 +1,31 @@
 {
-	"mandatory": ["name", "handler", "role", "rolePolicy" ],
-	"conditionnalMandatory":[
-		{
-			"name": "APIGatewayConf",
-			"mandatory": ["name", "resource", "stageName"]
-		}
-	],
-	"lambdaGateway" : {
+	"mandatory": {
+		"lambda": [
+			"name",
+			"handler",
+			"role",
+			"rolePolicy"
+		],
+		"s3": []
+	},
+	"conditionnalMandatory": {
+		"lambda": [
+			{
+				"name": "APIGatewayConf",
+				"mandatory": [
+					"name",
+					"resource",
+					"stageName"
+				]
+			}
+		],
+		"s3": []
+	},
+	"lambdaGateway": {
 		"keyLink": "lambdaInfo",
 		"valueLink": "linkHere",
 		"lambdaUri": "arn:aws:apigateway:<region>:lambda:path/<apiVersion>/functions/arn:aws:lambda:<region>:<AccountNumber>:function:<lambdaName>/invocations",
 		"lambdaGatewayPermission": "arn:aws:execute-api:<region>:<AccountNumber>:<apiId>/*/<httpMethod>/<lambdaName>"
-	
 	}
 }
 

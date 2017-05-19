@@ -7,7 +7,8 @@ from sttc.aws.config import Regions as r
 from sttc.deploy.service.Translator import Translator
 from sttc.deploy.service import ConfReader as cr
 from sttc.deploy.service.LambdaDeployer import LambdaDeployer
-from sttc.deploy.service.IAMDeployer import IAMDeployer
+from sttc.deploy.service.S3Deployer import S3Deployer
+import json
 
 
 DEPLOY_CONFIG_NAME = "deployConfig.json"
@@ -26,18 +27,16 @@ if __name__ == '__main__':
     parser.parse_args()
     parser.add_argument("-l", "--lan", help="language: 'fr'(default) or 'en'")
     parser.add_argument("-r", "--region", help="region: 'IRL'(default). Available: NYC: us-east-2 SF: us-west-1 IRL: eu-west-1 ALL: eu-central-1 CAN: ca-central-1")
-    parser.add_argument("-fp", "--filepath", help="filepath: relative or absolute filepath to the root directory of all lambdas. Default : ../lambdas")
     args = parser.parse_args()
     lan = "EN"
     region = "IRL"
     rootLambdaPath = "../lambdas"
+    rootS3Path = "../s3"
     if args.lan:
         if args.lan.upper() in m.authorizedLan:
             lan = args.lan.upper()
         else:
             raise Exception("Unrecognized language")
-    if args.filepath:
-        rootLambdaPath = args.filepath.lower()
     if args.region:
         region = args.region.upper()
         if not region in r.REGION_GEO.keys():
@@ -53,8 +52,12 @@ if __name__ == '__main__':
         
     ''' working on lambdas'''
     ld = LambdaDeployer(t, region, rootLambdaPath, DEPLOY_CONFIG_NAME, confDeployer)
-    ld.manageLambda()
-    
+    report = ld.manageLambda()
+    with open('lambdaReport.json', 'w') as outfile:
+        json.dump(report, outfile)
+        
+    s3d = S3Deployer(t, region, rootS3Path, DEPLOY_CONFIG_NAME, confDeployer)
+    s3d.manageS3()
     
     
             

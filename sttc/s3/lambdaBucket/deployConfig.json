@@ -4,11 +4,11 @@
 	"sendReport": [
 		{
 			"type": "lambda",
-			"destimation": "../../../PictureStatic/src/"
+			"destimation": "../../PictureStatic/src/"
 		}
 	],
 	"source": {
-		"relativePath": "../../../PictureStatic/",
+		"relativePath": "../../PictureStatic/",
 		"pathOfBuiltFiles": "dist/",
 		"prepareScript": {
 			"filename": "configureDeploy.py",

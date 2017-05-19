@@ -12,6 +12,7 @@
 				"resource": [
 					{
 						"pathPart": "angular",
+						"cors": "active",
 						"method": [
 							{
 								"httpMethod": "POST",

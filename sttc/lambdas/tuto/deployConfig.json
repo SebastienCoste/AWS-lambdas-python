@@ -12,6 +12,7 @@
 				"resource": [
 					{
 						"pathPart": "tuto",
+						"cors": "active",
 						"method": [
 							{
 								"httpMethod": "POST",

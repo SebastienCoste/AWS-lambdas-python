@@ -54,7 +54,7 @@ class APIGatewayManager:
         absolutePath = join(absoluteParentPath, confResource['pathPart'])
         resource = self.getResourceByPath(apiId, absolutePath)
         resourceId = None
-        
+        corsActivated = "cors" in resource.keys() and resource["cors"] == "activated"
         if resource == None:
             response = self.gateway.create_resource(
                 restApiId= apiId,
@@ -69,14 +69,35 @@ class APIGatewayManager:
         if "method" in confResource.keys():
             for method in confResource['method']:
                 #pass
-                self.createMethod(method, apiId, resourceId)
+                self.createMethod(method, apiId, resourceId, corsActivated)
             
         if "resource" in confResource.keys():
             for resource in confResource['resource']:
                 self.createResource(resource, apiId, resourceId, absolutePath)
         
-        
-    def createMethod(self, confMethod, apiId, resourceId):
+        if corsActivated:
+            self.gateway.put_method_response(
+                restApiId=apiId,
+                resourceId=resourceId,
+                httpMethod="OPTIONS",
+                statusCode="200",
+                responseParameters={
+                    'method.response.header.Access-Control-Allow-Headers': True,
+                    'method.response.header.Access-Control-Allow-Origin': True,
+                    'method.response.header.Access-Control-Allow-Methods': True 
+                },
+                responseModels={
+                    'application/json': 'Empty'
+                }
+            )
+            self.gateway.put_method(
+                restApiId=apiId,
+                resourceId=resourceId,
+                httpMethod="OPTIONS",
+                authorizationType="NONE"
+            )
+            
+    def createMethod(self, confMethod, apiId, resourceId, corsActivated):
         
         method = self.getMethodOfResource(apiId, resourceId, confMethod['httpMethod'])
         createMethod = method == None or method['authorizationType'] != confMethod['authorizationType']
@@ -94,20 +115,13 @@ class APIGatewayManager:
             if "authorizerId" in confMethod.keys():
                 authId = confMethod['authorizerId']
             
-            response = self.gateway.put_method(
+            self.gateway.put_method(
                 restApiId= apiId,
                 resourceId= resourceId,
                 httpMethod= confMethod['httpMethod'],
                 authorizationType= confMethod['authorizationType'],
                 authorizerId=authId,
                 apiKeyRequired=confMethod['apiKeyRequired'] == 'True'
-            )
-            
-            self.gateway.put_method(
-                restApiId=apiId,
-                resourceId=resourceId,
-                httpMethod="OPTIONS",
-                authorizationType="NONE"
             )
             
             print(self.t.getMessage("createMethod") + " " + resourceId + " : " +confMethod['httpMethod'])
@@ -125,33 +139,20 @@ class APIGatewayManager:
                         statusCode=route['code']
                     )
                 except :
+                    responseParameters = {}
+                    responseModels = {}
+                    if corsActivated:
+                        responseParameters = {'method.response.header.Access-Control-Allow-Origin': "'*'"}
+                        responseModels={'application/json': 'Empty'}
                     self.gateway.put_method_response(
                         restApiId=apiId,
                         resourceId=resourceId,
                         httpMethod=confMethod['httpMethod'],
                         statusCode=route['code'],
-                        responseParameters={
-                            'method.response.header.Access-Control-Allow-Origin': True
-                        },
-                        responseModels={
-                            'application/json': 'Empty'
-                        }
+                        responseParameters=responseParameters,
+                        responseModels=responseModels
                     )
                     
-                    self.gateway.put_method_response(
-                        restApiId=apiId,
-                        resourceId=resourceId,
-                        httpMethod="OPTIONS",
-                        statusCode="200",
-                        responseParameters={
-                            'method.response.header.Access-Control-Allow-Headers': True,
-                            'method.response.header.Access-Control-Allow-Origin': True,
-                            'method.response.header.Access-Control-Allow-Methods': True 
-                        },
-                        responseModels={
-                            'application/json': 'Empty'
-                        }
-                    )
 
         
         
@@ -168,39 +169,43 @@ class APIGatewayManager:
         absolutePath = join(path, resource['pathPart'])
         apiResource = None
         if "method" in resource.keys():
+            corsActivated = "cors" in resource.keys() and resource["cors"] == "activated"
             for method in resource['method']:
                 if 'routeResponse' in method.keys():
                     if apiResource == None:
                         apiResource = self.getResourceByPath(api['id'], absolutePath)
                     for route in method['routeResponse']:
+                        
+                        responseParameters = {}
+                        responseTemplates = {}
+                        if corsActivated:
+                            responseParameters = {'method.response.header.Access-Control-Allow-Origin': "'*'"}
+                            responseTemplates={'application/json': ''}
                         self.gateway.put_integration_response(
                                     restApiId=api['id'],
                                     resourceId=apiResource['id'],
                                     httpMethod=method['httpMethod'],
                                     statusCode=route['code'],
                                     selectionPattern=route['regex'],
-                                    responseParameters={
-                                        'method.response.header.Access-Control-Allow-Origin': "'*'"
-                                    },
-                                    responseTemplates={
-                                        'application/json': ''
-                                    }
+                                    responseParameters=responseParameters,
+                                    responseTemplates=responseTemplates
                                 )
-                        self.gateway.put_integration_response(
-                            restApiId=api['id'],
-                            resourceId=apiResource['id'],
-                            httpMethod="OPTIONS",
-                            statusCode="200",
-                            selectionPattern=route['regex'],
-                            responseParameters={
-                                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-                                "method.response.header.Access-Control-Allow-Methods": "'*'",
-                                "method.response.header.Access-Control-Allow-Origin": "'*'"
-                            },
-                            responseTemplates={
-                                'application/json': ''
-                            }
-                        )   
+            if corsActivated:
+                self.gateway.put_integration_response(
+                    restApiId=api['id'],
+                    resourceId=apiResource['id'],
+                    httpMethod="OPTIONS",
+                    statusCode="200",
+                    selectionPattern=".*",
+                    responseParameters={
+                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                        "method.response.header.Access-Control-Allow-Methods": "'*'",
+                        "method.response.header.Access-Control-Allow-Origin": "'*'"
+                    },
+                    responseTemplates={
+                        'application/json': ''
+                    }
+                )   
                                  
         if "resource" in resource.keys():
             for surResource in resource['resource']:
@@ -283,15 +288,16 @@ class APIGatewayManager:
             uri=url
             )
         
-        self.gateway.put_integration(
-            restApiId=api['id'],
-            resourceId=resource['id'],
-            httpMethod="OPTIONS",
-            type="MOCK",
-            requestTemplates={
-                'application/json': '{"statusCode": 200}'
-            }
-        )
+        if "cors" in resource.keys() and resource["cors"] == "activated":
+            self.gateway.put_integration(
+                restApiId=api['id'],
+                resourceId=resource['id'],
+                httpMethod="OPTIONS",
+                type="MOCK",
+                requestTemplates={
+                    'application/json': '{"statusCode": 200}'
+                }
+            )
         
         
     def deployStage(self, apiId, stageName):

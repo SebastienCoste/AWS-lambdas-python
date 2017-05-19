@@ -53,8 +53,10 @@ if __name__ == '__main__':
     ''' working on lambdas'''
     ld = LambdaDeployer(t, region, rootLambdaPath, DEPLOY_CONFIG_NAME, confDeployer)
     report = ld.manageLambda()
+    fullreport = {}
+    fullreport["allLambdas"] = report
     with open('lambdaReport.json', 'w') as outfile:
-        json.dump(report, outfile)
+        json.dump(fullreport, outfile)
         
     s3d = S3Deployer(t, region, rootS3Path, DEPLOY_CONFIG_NAME, confDeployer)
     s3d.manageS3()

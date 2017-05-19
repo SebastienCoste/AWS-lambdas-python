@@ -1,1 +1,1 @@
-[{"name": "tuto", "url": "https://ys48oarerc.execute-api.eu-west-1.amazonaws.com/PROD/test/tuto"}, {"name": "angular", "url": "https://nmapuox036.execute-api.eu-west-1.amazonaws.com/ANGULAR/test/angular"}]
+{"allLambdas": [{"name": "tuto", "url": "https://ys48oarerc.execute-api.eu-west-1.amazonaws.com/PROD/test/tuto"}, {"name": "angular", "url": "https://nmapuox036.execute-api.eu-west-1.amazonaws.com/ANGULAR/test/angular"}]}

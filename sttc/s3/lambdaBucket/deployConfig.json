@@ -4,7 +4,7 @@
 	"sendReport": [
 		{
 			"type": "lambda",
-			"destimation": "../../../PictureStatic/"
+			"destimation": "../../../PictureStatic/src/"
 		}
 	],
 	"source": {

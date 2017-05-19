@@ -90,7 +90,7 @@ class LambdaDeployer:
                     FunctionName=confLambda['name']
                 )
                 url = "https://" + apiId + ".execute-api." + self.gateway.getRegion() + ".amazonaws.com/" + confGateway['stageName'] + path
-                print()
+                print(url)
                 report['url'] = url
         return report
             

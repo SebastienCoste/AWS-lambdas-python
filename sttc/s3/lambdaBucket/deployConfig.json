@@ -1,14 +1,14 @@
 {
 	"bucketSubdomain": "wedding",
-	"dnsDomain": "sebastiencoste.info",
+	"dnsDomain": "sebastiencoste.fake",
 	"sendReport": [
 		{
 			"type": "lambda",
-			"destimation": "../../../Wedding/"
+			"destimation": "../../../PictureStatic/"
 		}
 	],
 	"source": {
-		"relativePath": "../../../Wedding/",
+		"relativePath": "../../../PictureStatic/",
 		"pathOfBuiltFiles": "dist/",
 		"prepareScript": {
 			"filename": "configureDeploy.py",
@@ -32,7 +32,7 @@
 		"routingRules": [
 			{
 				"Redirect": {
-					"HostName": "<bucketName>",
+					"HostName": "PictureStatic",
 					"Protocol": "http",
 					"ReplaceKeyPrefixWith": "#/"
 				}

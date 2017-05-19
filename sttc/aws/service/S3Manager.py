@@ -7,6 +7,7 @@ Created on 19 mai 2017
 from sttc.aws.config.ConfigProvider import ConfigProvider
 import boto3
 import json
+import os
 
 class S3Manager():
     
@@ -32,7 +33,8 @@ class S3Manager():
             self.setWebHosting(bucketName, conf['bucketHosting'])
         
         #TODO copy files
-        
+        if filesLocation != None:
+            self.uploadFiles(filesLocation, bucketName)
         
     def createBucketIfNotExist(self, conf, bucketName):
         
@@ -90,7 +92,24 @@ class S3Manager():
         
         
         
+    def uploadFiles(self, path, bucketName):
         
+        for root, dirs, files in os.walk(path):
+
+            for filename in files:
+        
+                # construct the full local path
+                local_path = os.path.join(root, filename)
+            
+                # construct the full Dropbox path
+                relative_path = os.path.relpath(local_path, path)
+            
+                # relative_path = os.path.relpath(os.path.join(root, filename))
+                try:
+                    self.client.delete_object(Bucket=bucketName, Key=relative_path)
+                except:
+                    pass
+                self.client.upload_file(local_path, bucketName, relative_path)
         
         
         

@@ -1,7 +1,7 @@
 {
 	buckets:[
 			{
-				"name":"bucketName";
+				"bucketName":"bucketName";
 				"source": {
 							"relativePath": "../myproject/",
 							"pathToBuiltFiles": "dist/",
@@ -13,7 +13,46 @@
 															]
 											},
 							"buildCommand": "gulp build"
-							}
+							},
+				
+				"bucketPermissions": [
+									{
+										"name": "all",
+										"objectAccess": "read",
+										"permissionAccess": "read"
+									}
+								],
+				"bucketHosting": {	"routingRules": {
+													"hostName": "myAppDns",
+													"protocol": "HTTP",
+													"replaceKeyPrefixWith": "#/"
+												},
+								"indexDocument": "index.html"
+							},
+				"bucketPolicy" : {
+								  "Version": "2012-10-17",
+								  "Statement": [
+								    {
+								      "Sid": "PublicReadGetObject",
+								      "Effect": "Allow",
+								      "Principal": {
+								        "AWS": "*"
+								      },
+								      "Action": "s3:GetObject",
+								      "Resource": "arn:aws:s3:::<bucketName>/*"
+								    }
+								  ]
+								},
+				"corsConfiguration" : {
+										"allowedOrigin": "*",
+										"allowedMethod": "GET",
+										"maxAgeSeconds": "3000",
+										"allowedHeader": "Authorization"
+									  },
+				"cloudFrontConfiguration": {
+												"originDomainName": "<bucketName>.s3.amazonaws.com",
+												"viewerProtocolPolicy": "HTTP and HTTPS"
+											}
 			}
 		]
 }

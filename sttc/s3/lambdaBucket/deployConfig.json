@@ -1,0 +1,19 @@
+{
+	buckets:[
+			{
+				"name":"bucketName";
+				"source": {
+							"relativePath": "../myproject/",
+							"pathToBuiltFiles": "dist/",
+							"prepareScript": {
+												"filename": "configure.py",
+												"arguments": [
+																"--destinationFile": "app/conf/lambdas.json",
+																"--relativePathTolambda": "./lambdas"
+															]
+											},
+							"buildCommand": "gulp build"
+							}
+			}
+		]
+}

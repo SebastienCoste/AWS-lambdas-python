@@ -9,9 +9,9 @@
 	function lambda($http) {
 
 	    
-		 var getTec =  function(allLambdaUrl) {
+		 var getTec =  function(lambdaUrl) {
 			 console.log("loading technos ...")
-			 return $http.post(allLambdaUrl["angular"],null).then(function(result){
+			 return $http.post(lambdaUrl,null).then(function(result){
 				 console.log(" ... loaded");
 	            return result.data;
 	        });

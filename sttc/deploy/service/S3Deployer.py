@@ -75,6 +75,7 @@ class S3Deployer():
             filesLocation = self.buildFiles(conf['source'])
         
         self.s3.upload(conf, self.bucketName, filesLocation)
+        print (self.t.getMessage("deployedS3") +" " + self.bucketName)
         
         
         

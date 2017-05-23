@@ -315,7 +315,7 @@ class APIGatewayManager:
             deploys = self.gateway.get_deployments(
                 restApiId=apiId
             )
-            if (not "items" in deploys.keys()) or  len(deploys.keys()) == 0:
+            if len(deploys['items']) == 0:
                 res = self.gateway.create_deployment(
                     restApiId=apiId,
                     stageName=stageName

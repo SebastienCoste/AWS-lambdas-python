@@ -15,7 +15,8 @@ French= {
         "createAPI": "createAPI",
         "createResource": "createResource",
         "createMethod": "createMethod",
-        "linkLambdaAPIGateway": "linkLambdaAPIGateway"
+        "linkLambdaAPIGateway": "linkLambdaAPIGateway",
+        "deployedS3": "deployedS3"
          
          }
 
@@ -34,7 +35,8 @@ English= {
         "createAPI": "createAPI",
         "createResource": "createResource",
         "createMethod": "createMethod",
-        "linkLambdaAPIGateway": "linkLambdaAPIGateway"
+        "linkLambdaAPIGateway": "linkLambdaAPIGateway",
+        "deployedS3": "deployedS3"
         
           }
 

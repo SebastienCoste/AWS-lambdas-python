@@ -1,0 +1,30 @@
+{
+	"name": "photoLambda",
+	"handler": "lambda.handler",
+	"role": "arn:aws:iam::<AccountNumber>:role/PictureSiteDefaultRole",
+	"rolePolicy": "lambdaFullAccessPolicyArn",
+	"APIGatewayConf": {
+		"name": "photo",
+		"stageName": "v1",
+		"resource": [
+			{
+				"pathPart": "retrieve",
+				"cors": "active",
+				"method": [
+					{
+						"httpMethod": "POST",
+						"authorizationType": "NONE",
+						"apiKeyRequired": "False",
+						"lambdaInfo": "linkHere",
+						"routeResponse": [
+							{
+								"regex": ".*",
+								"code": "200"
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+}

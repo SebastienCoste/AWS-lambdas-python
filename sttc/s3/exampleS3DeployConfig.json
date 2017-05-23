@@ -1,5 +1,6 @@
 {
-	"bucketSubdomain": "sebastiencoste.info",
+	"bucketSubdomain": "",
+	"dnsDomain": "sebastiencoste.info",
 	"sendReport": [
 		{
 			"type": "lambda",
@@ -9,7 +10,20 @@
 	"source": {
 		"relativePath": "../../PictureStatic/",
 		"pathOfBuiltFiles": "dist/",
-		"buildCommand": "ng build --prod --aot"
+		"prepareScript": {
+			"filename": "configureDeploy.py",
+			"arguments": [
+				{
+					"key": "--destinationFile",
+					"value": "app/conf/lambdas.json"
+				},
+				{
+					"key": "--lambdaReport",
+					"value": "lambdaReport.json"
+				}
+			]
+		},
+		"buildCommand": "ng build"
 	},
 	"bucketPermissions": {
 		"ACL": "public-read"
@@ -18,7 +32,7 @@
 		"routingRules": [
 			{
 				"Redirect": {
-					"HostName": "sebastiencoste.info",
+					"HostName": "PictureStatic",
 					"Protocol": "http",
 					"ReplaceKeyPrefixWith": "#/"
 				}

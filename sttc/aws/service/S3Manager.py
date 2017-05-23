@@ -48,7 +48,10 @@ class S3Manager():
                     'LocationConstraint': self.conf.region
                 }
             )
-        return self.resource.Bucket(bucketName)
+        bucket = self.resource.Bucket(bucketName)
+        bucket.objects.all().delete()
+        
+        return bucket
         
     
     def setPolicy(self, bucketName, conf):

@@ -1,1 +1,20 @@
 sttc/aws/resource/privateConf.json
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+PictureStatic/dist
+PictureStatic/tmp
+PictureStatic/out-tsc
+
+# dependencies
+PictureStatic/node_modules
+
+# IDEs and editors
+PictureStatic/.idea
+PictureStatic/*.launch
+PictureStatic/.settings/
+
+# e2e
+PictureStatic/e2e/*.js
+PictureStatic/e2e/*.map
+

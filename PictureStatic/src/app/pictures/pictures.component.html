@@ -1,0 +1,11 @@
+<ul class="pictures">
+  <li *ngFor="let picture of pictures"
+    (click)="onSelect(picture)"
+    [class.selected]="picture===selectedPicture"
+    >
+    <span class="badge">{{picture.name}}</span> {{picture.link}}
+  </li>
+</ul>
+
+
+<app-picture *ngIf="selectedPicture" [picture]="selectedPicture"></app-picture>

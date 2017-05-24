@@ -33,7 +33,7 @@ def handler(event, context):
     pics = []
     for elmt in listObject['Contents']:
         pic = {}
-        pic['name'] = elmt['Key']
+        pic['name'] = elmt['Key'].split(".")[0]
         pic['link'] =  "https://s3-" + region + ".amazonaws.com/" + bucketName + "/" + pic['name']
         pics.append(pic)
     report['pics'] = pics

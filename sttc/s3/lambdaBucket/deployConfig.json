@@ -12,18 +12,10 @@
 		"buildCommand": "ng build --prod --aot"
 	},
 	"bucketPermissions": {
-		"ACL": "public-read"
+		"ACL": "public-read",
+		"fileACL": "public-read"
 	},
 	"bucketHosting": {
-		"routingRules": [
-			{
-				"Redirect": {
-					"HostName": "sebastiencoste.info",
-					"Protocol": "http",
-					"ReplaceKeyPrefixWith": "#/"
-				}
-			}
-		],
 		"indexDocument": "index.html",
 		"errorDocument": "index.html"
 	},

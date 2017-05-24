@@ -34,7 +34,7 @@ class S3Manager():
         
         #TODO copy files
         if filesLocation != None:
-            self.uploadFiles(filesLocation, bucketName)
+            self.uploadFiles(filesLocation, bucketName, conf['bucketPermissions']['fileACL'])
         
     def createBucketIfNotExist(self, conf, bucketName):
         
@@ -95,7 +95,7 @@ class S3Manager():
         
         
         
-    def uploadFiles(self, path, bucketName):
+    def uploadFiles(self, path, bucketName, fileACL):
         
         for root, dirs, files in os.walk(path):
 
@@ -113,6 +113,11 @@ class S3Manager():
                 except:
                     pass
                 self.client.upload_file(local_path, bucketName, relative_path)
+                self.client.put_object_acl(
+                    ACL=fileACL,
+                    Bucket= bucketName,
+                    Key= filename
+                )
         
         
         
